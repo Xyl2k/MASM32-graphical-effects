@@ -1,0 +1,8 @@
+#include "\masm32\include\resource.h"
+100 DIALOG 0, 0, 300, 100
+STYLE DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_SYSMENU
+CAPTION "DibTut1 - A Simple Picture"
+
+BEGIN
+
+END

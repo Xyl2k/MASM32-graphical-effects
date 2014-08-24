@@ -1,0 +1,24 @@
+[PROJECT]
+Type=0
+ReleaseCommandLine=
+DebugCommandLine=
+AutoIncFileVersion=0
+RCSilent=0
+PellesTools=0
+Compiler=MASM32
+[MAKE]
+ActiveBuild=0
+CompileRC=/v
+RCToObj=
+Assemble=/c /coff /Cp /nologo
+Link=/SUBSYSTEM:WINDOWS /RELEASE /VERSION:4.0
+Out=
+DebAssemble=/c /coff /Cp /nologo /Fm /Zi /Zd
+DebLink=/SUBSYSTEM:WINDOWS /DEBUG /VERSION:4.0
+DebOut=
+[FILES]
+1=RSAEnc.asm
+2=RSAEnc.rc
+[SHOWFILE]
+1=6E00000091000000BB0200004502000000000000030000000000000006
+2=84000000AE000000D1020000620200000100000001000000000000006B

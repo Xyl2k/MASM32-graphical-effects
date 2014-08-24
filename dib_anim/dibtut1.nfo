@@ -1,0 +1,776 @@
+     ∞∞∞∞∞
+     ±±±±±
+     ≤≤≤≤≤
+     €€€€€                 ‹‹€›
+     ﬁ€€€€               ﬁ€€€€› Best viewed in Terminal font.
+ ‹‹‹ ﬁ≤≤≤€›‹‹‹∞       ‹‹ ﬁ€€€€›‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹  ‹‹€€    ‹‹‹‹‹‹‹‹‹‹
+ € ‹‹ﬁ€€€€›ﬁ≤≤≤€€€€€‹‹‹  ﬁ€€€€› ‹‹‹‹‹‹‹‹‹ ∞ ‹‹‹‹‹‹‹ ∞     €  €€€€€€‹‹         €
+ € €  €€€€≤   ﬂﬂ€€€€€ﬂ∞  ∞≤€€€€         € ± ≤     ≤ ±    ‹€  ≤€€€€ﬂ€€€€‹‹∞    €
+ € ﬂﬂ ﬂ€€€≤    ﬁ€€€€›     ≤€€€€ ﬂﬂﬂﬂﬂﬂﬂﬂﬂ ≤ ±     ± ≤‹‹€ﬂﬂ   ≤€€€€   ﬂﬂ€€€€‹‹ €
+ ﬂﬂﬂﬂﬂ ﬂ€€€≤‹ ﬂ ﬂ€ﬂ   ﬂﬂﬂ ﬁ€€€€  ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ ∞‹‹≤≤≤€ ﬂﬂ  ‹‹≤≤€≤€€€€ ﬂﬂﬂ  ﬁ€€≤≤ €
+      ‹‹ ﬂ€€€€€‹‹‹        ﬁ€€€€›     ‹‹€› ‹≤≤ﬂﬂ€€€€›∞‹≤≤ﬂﬂ€€€≤≤€€€      ≤€€≤› €
+   ‹≤≤€€›   ﬂﬂ€€€€€€€€€‹‹‹‹≤€€€›‹‹€€€€€€‹€€ﬂ   ﬁ€€€≤≤€ﬂ   ﬁ€€€≤€€€›    ‹≤€€≤  €
+  ﬁ€€€€€‹‹‹‹‹    ﬂﬂﬂﬂ€€€€€€≤≤€€€≤≤ﬂﬁ€€€≤€€›     €€€€€›     €€€≤≤€€›‹‹€≤≤ﬂﬂﬂ   €
+    ∞ﬂﬂﬂﬂﬂ€€€€≤≤≤‹‹ ‹‹€€€€€ﬂ≤€€€   ﬁ€€€≤€€ ‹‹‹≤≤ﬂﬂﬂ€≤≤‹‹‹€€ﬂﬂﬂ ﬁ≤€≤ﬂﬂ∞        €
+              ≤ﬂﬂ ‹≤≤€€ﬂﬂ   ﬁ≤€€›  €€€€›€€€ﬂﬂ  ‹‹€›ﬁ€€ﬂﬂ  ‹‹€›  ≤€€› w0       €
+              ±  ≤≤€ﬂ        ≤€€€  €€€€  ﬂ€€‹‹ €€€› ﬂ≤≤‹‹ €€€›  ﬁ≤€€          €
+              ± ≤€ﬂ    ˛     ﬁ≤€€›  ﬂﬂ€     ﬂﬂ€€€€     ﬂﬂ≤≤€€    ﬂ€€›         €
+              ∞ﬁ€›       ﬂ‹   €€€€              ﬂﬂ        ∞ﬂﬂ      ﬂ€         €
+    ∞∞  ∞∞  ∞ ∞ ≤€‹       ≤›   ﬂﬂ€›                                           €
+    ∞∞           ﬂ≤≤‹‹‹‹€€ﬂ       ﬂ    Sheep presents tutorial 1              €
+     ‹‹ ‹‹         €€ﬂﬂ             ‹‹                                        €
+ €€ﬂﬂ€€ €€ﬂﬂ€€     €€ €ﬂ €€ﬂﬂ€‹ €€ﬂﬂ€€ DIB - Pictures paint a thousand Dwords €
+ €€  €€ €€  €€ €€ﬂﬂ€€ ‹‹ €€  €€ €€  ﬂﬂ                                        €
+ €€  ‹‹ €€  €€ €€  €€ €€ €€  €€ €€ ﬂ€€ ‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹€
+ €€‹‹€€ €€‹‹€€ €€‹‹€€ ﬂﬂ €€  €€ €€‹‹€€ 
+ ﬂﬂ         ﬂﬂ     ﬂ€€   ﬂﬂ     ﬂﬂ€€                 ‹‹           ‹‹         ‹‹
+ ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ ≤≤ ﬂﬂﬂ ‹‹ ﬂﬂﬂ €€ ﬂﬂﬂ ‹€ﬂﬂ€‹  €€ﬂﬂ€€ €ﬂ ‹€ﬂﬂ€€ €€  ∞∞  ‹€ﬂ€€
+    ∞∞              €€‹‹   €€  €€ €€‹‹   €€  €€  €€  €€ ‹‹ €€  €€ €€     €€  ﬂﬂ
+    ∞∞              €€  ‹‹ €€  €€ €€  ‹‹ €€  €€  €€ﬂﬂ€‹ ≤≤ €€ﬂﬂ€€ €€  ‹‹ ﬂﬂﬂﬂ€‹
+                    €€‹‹€€ €€‹‹€€ €€‹‹€€ ﬂ€‹‹€ﬂ  €€  €€ ±± €€  €€ €€‹‹€€ €€‹‹€€
+    ∞∞              ﬂﬂ         ﬂﬂ ﬂﬂ             ﬂﬂ     ∞∞     ﬂﬂ            ﬂﬂ
+
+
+  INTRODUCTION
+  ************
+
+  Welcome to this, the first in a series of tutorials describing the methods 
+  used to create OLDSKOOL demo effects.
+
+  Before I start Id like to point out that I'm no DEMO coder at all, I have
+  always been fascinated by cracktros and intros, I can remember many years
+  ago on the atariST and later on the amiga enjoying watching a well coded
+  intro with as much enthusiasm as playing the game it was presenting :) 
+
+  I'm simply a games reverse engineer with a passion for oldskool ethics and 
+  a willing to share :)
+
+  From the very beginnings of the pirate scenes the trainer has always been an 
+  integral part of many intros and in a lot of cases being the main focus of 
+  intros themselves.. I hope this tutorial spreads a little oldskool spirit 
+  and reunites the intro with the trainer once more, a small beacon of light 
+  on a platform dominated by sloppy and bloated code.  
+
+  Everything in my following tutorials has been covered many times before on
+  many platforms.. I myself learnt from reading old DOS demo coding tutorials
+  so as a point of reference you could perhaps check those sources as well.
+
+  This series of tutorials puts a slightly new spin on the subject as its
+  for the Windows operating system which is 32bit.
+
+
+  On with the show.....
+
+
+  THIS NEXT SECTION IS ON THE FRONT OF EVERY TUTORIAL!!
+
+  NOTICE!! Before we start I need to inform you that this tutorial assumes
+  that you have MASM installed on the C: drive because everything is directed
+  at C:\MASM32.. If you have it installed somewhere else then you will need to 
+  change the source code manually or install it on your C: drive instead.
+
+
+  Initial Setup
+  *************
+
+  There are a few ways that we can get our effects onto the screen, DirectX,
+  Opengl etc.. I've chosen DEVICE INDEPENDENT BITMAP (DIB) because its the 
+  most practical for my own needs (TRAINERS).. so here goes.
+ 
+  
+  DIB! (Device Independent Bitmap)
+  ================================
+
+  Every artist needs his canvas, in our case our canvas is just a large block
+  of memory that we write our data to which in turn gets shown every frame.
+
+  You don't really need to worry about this setup code to start with.. Ill point
+  out exactly what you need to know and why! A Dib shell is so easy to setup 
+  you will be doing it in your sleep after a while.
+
+  The DIB shell I use in this tutorial was just downloaded from the NET so if 
+  anyone recognizes it and wishes to be credited let me know. It was easier to
+  download this simple setup than rip my trainer apart and paste the code for
+  you.
+
+  All you need to keep in mind is that DIB is just UTILITY CODE!! all it does
+  is setup our canvas(buffer) for drawing onto.. THATS IT!! this is why you don't 
+  need to know too much about it at this stage.
+
+  These 2 sections are really the only things you will need to know.. 
+
+
+  1. Setup a BITMAP structure to pass to the DIB api calls.
+  =========================================================
+  This passes information to the CreateDIBSection api call letting it know
+  what format and size we require our canvas(buffer) to be.
+
+  mov canvas.bmiHeader.biSize,sizeof canvas.bmiHeader  
+  mov canvas.bmiHeader.biWidth,ScreenWidth             
+  mov canvas.bmiHeader.biHeight,-ScreenHeight          
+  mov canvas.bmiHeader.biPlanes,1                      
+  mov canvas.bmiHeader.biBitCount,32                   
+
+
+  2. The actual setup code.
+  =========================
+
+  (as i said.. it couldn't get much easier)
+
+ invoke	   GetDC, [hWnd]                                                                   
+    mov    hDC,eax 	                                                                 
+ invoke	   CreateCompatibleDC, eax                                                      
+    mov	   [canvasDC], eax                                                              
+ invoke	   CreateDIBSection,hDC,ADDR canvas,DIB_RGB_COLORS, ADDR canvas_buffer, 0, 0    
+    mov    [canvasBmp], eax                                                             
+ invoke	   SelectObject, [canvasDC], eax                                                                                                                    ;|
+ invoke    ReleaseDC,[hWnd],hDC                                                                 
+             
+  At the end of this code we have [canvas_buffer] which is our nice CANVAS(buffer) 
+  to draw onto :)
+
+  And thats basically all you need to know about our DIB utility setup code.
+
+
+  THEORY!
+  *******
+
+  There are just a few concepts that you REALLY!!! REALLY!! must understand 
+  before we can start doing anything with the code, I'm about to try and teach 
+  you these concepts.
+
+
+  X/Y Coordinates
+  ===============
+
+  The screen we see in front of us is 2D, we have an X coordinate and a Y 
+  coordinate. 
+
+ 0  |-----------|  As you can see Y determines how far we are DOWN the screen,
+ 1 ||           |  X determines how far ACROSS the screen we are.
+ 2 ||           |
+ 3 Y|           |
+ 4 ||           |
+ 5 ||-----------|
+ 6   -----X----- 
+    0 1 2 3 4 5 6
+
+  Our screen needs to have a size, we specify this in the BITMAP structure
+  that gets passed to the DIB api calls.. 
+
+  In these tutorials the screen size is 300x200.. so every line of the screen
+  has 300 pixels on it and we have 200 of those lines.
+
+
+   0.0------0.299  In this diagram you will see that the top left pixel
+  | |           |  of our screen is Y=0, X=0 and top right is Y=0
+  | |           |  and X=299.. bottom right Y = 199 and X = 299.
+  Y |           |
+  | |           |
+  | |-----199.299
+     -----X----- 
+
+  If we want to plot pixels on other parts of the screen all we need to do
+  is add to the X and Y values.. 
+
+   0.0-------0.299  In this diagram Y=1, X=3. You can see the X is 3 so
+  | |   o       |   its plotted 3 pixels along the screen.
+  | |           |   Y is only 1 so its plotted down the screen by 1.
+  Y |           |
+  | |           |   o = pixel.
+  | |-----------|
+     -----X----- 
+
+  From the above diagram all I wanted to get across was that adding to the X and
+  Y coordinates will move you around the screen.
+
+
+  BUFFER TO SCREEN!!
+  ==================
+
+  Obviously to a computer there is no such thing as dimensions, X/Y etc..
+  All a computer can see is 1 long string of 1/0.. its the same with our
+  buffer, its just 1 long string of memory that looks something like this.
+
+                  1 2 3 4 5 6 7 8 9 10 11 12 13     300 301 302
+  SCREEN BUFFER - 0 0 0 0 0 0 0 0 0 0  0  0  0  ... 0   0   0 ... cont..
+
+  As you can see the buffer is just 1 long string of 0's.
+  These 0's represent pixels on our screen.
+
+  The first 300 pixels (0-299) are represented by the first 300 bytes 
+  in our buffer.
+
+  something like this.. 
+
+                   
+  SCREEN - row 1 - 0 1 2 3 4 5 6 7 8 9 10 11 12 13     299 
+                   0 0 0 0 0 0 0 0 0 0 0  0  0  0  ...
+  
+           row 2 - 300 301 302
+                   0   0   0
+          
+           row 3 - 600 601 602
+                   0   0   0     
+ 
+  
+  The first row of pixels go from byte 0 in our buffer to byte 299
+  the second row starts at byte 300 and goes up to byte 599, the 
+  third row go from byte 600 .. etc. etc.. so you get the picture.
+  Our screen resolution is 300x200.. so every 300 bytes = 1 row on
+  the screen.
+
+  If you change any of these bytes in our buffer you are changing the
+  pixel that will be displayed on the screen.
+
+  
+  PLOTTING A PIXEL (SCREEN TO BUFFER)
+  ===================================
+
+  If we wanted to plot a pixel at X = 10 and Y = 29 then we need to 
+  start from the beginning of our buffer, every Y = 1 row.. so we do
+  this.
+           Y = 29*PIXELS_ON_1_ROW (in our example its 300)
+           X = 10 (X can only move from 0 to 299 (end of screen))
+
+           Buffer address = 10000 (not a real address, just to show 
+                                   relation from start of buffer)
+
+           to plot our pixel we just add the X and Y results to the
+           start of the buffer.. 
+
+           Y = 29*300 = 8700 bytes
+           X = 10     = 10   bytes
+
+           X + Y      = 8710 bytes
+
+
+           Buffer start address + X + Y = 18710
+
+           so the pixel at position X(10) , Y(29) on our screen is 
+           8710 bytes along in our buffer(18710).. so thats what byte 
+           you change if you want to affect that pixel.
+
+  If you don't understand this I suggest you read, read and re-read
+  because you will not get very far without this understanding.
+
+  IMPORTANT NOTE!! even though I have represented each pixel with a 0(byte)
+  in the above explanations, on the windows platform we are working with 
+  today its a 32bit operating system which means every pixel is actually 
+  4 bytes (00,00,00,00) we will learn about 32bit pixels next so don't worry
+  too much. 
+
+
+  32bit COLOR PIXELS
+  ==================
+
+  A pixel is made up from varying amounts of 3 primary colors (red,green,blue) 
+  and finally an alpha channel to deal with transparency (this isn't used in dib
+  so we don't need to worry about it, its value is always 0.)
+
+  A 32bit pixel is very simple to deal with because each one of the 4 bytes in a 
+  32bit number represents just 1 of the 4 ingredients to a pixel.. it looks something
+  like this.. 
+
+  RRGGBBAA - RR = RED , GG = GREEN , BB = BLUE, AA = ALPHA
+  --------   --------   ----------   ---------  ----------
+
+  So, if I wanted a nice bright RED color then we would use this number,
+  FF000000h - 255(ff) red, 00 green, 00 blue, 00 alpha.
+
+  if we wanted a nice bright GREEN color then we would use this number,
+  00FF0000h - 00 red, 255(ff) green, 00 blue, 00 alpha.
+
+  and lastly a lovely blue... 
+  0000FF00h - 00 red, 00 green, 255(ff) blue, 00 alpha.
+
+  As you can see each byte represents one of the 3 colors and tagged on the
+  end is the (AA - ALPHA) channel, we just change the values of the 32bit number 
+  to mix ourselves another color. You will also notice the alpha channel is always
+  set to 0 because we don't use it.
+
+  Using this information we can now begin our actual Demo Effect for this tutorial.
+
+   
+  GETTING SOMETHING ON SCREEN!!
+  *****************************
+
+  This is basically where all the tutorials will start.. the sections above
+  are the basics that will be included in every tutorial. The actual demo effect 
+  will start from this point onward so if you have already read and understood the
+  basics then you can skip it in any future tutorials and just get to this point :)
+
+  We will start this series of tutorials with a very basic and fundamentally 
+  important part of creating demo effects. I'm going to explain how we put
+  things onto the screen, in our case its going to be a nice simple 
+  picture. I know this sounds boring but it teaches us a few things which
+  are very important and needed for all other tutorials, these are..
+  
+
+  1) Palette and picture data creation.
+  2) Palette indexing.
+  3) Screen positioning. 
+
+  The first thing we need to do is create our palette and picture data..
+
+  Hopefully by the time this goes out I will have coded a small utility
+  to create nice palette and picture data arrays for you.. BUT! as that
+  isn't a certainty I'm going to show you the manual way to do it with tools
+  we all have available to us :)
+  
+  First of all we need a picture, you can use any art package you like.
+
+  MAKE THE SIZE OF THE PICTURE 100x100 thats 100 pixels high and 100 pixels
+  wide.
+
+  We need to save out 2 versions of our picture, these are.. 
+
+  PICTURE.BMP - This needs to be a 256 color bitmap, reduce the colors to 
+                256 and save out as BMP. 
+
+  PICTURE.RAW - Once you have made your 256 color picture you need then to 
+                save out a .RAW picture, this will save just the raw picture 
+                data. Make sure you save the RAW picture AFTER!! you have 
+                converted it to 256 colors or the data is different and we 
+                cant use it.
+
+  Once we have these 2 files we need to turn them into an array that we 
+  can use in our program. As this tutorial will not work without you 
+  having masm installed we are going to use a program called bintodb.exe
+  which is inside the MASM32 directory.
+
+  Find the bintodb.exe and load it up, basically what this program does is 
+  change binary files into a nice byte array for masm.
+
+  Firstly we will make our picture array, load PICTURE.RAW into bintodb.exe,
+  you should see a very large array of bytes, this is our picture data all 
+  nicely set out for us, we need to add a label to it so we can reference 
+  it later, before the first db place a label like this.. 
+
+  picture_g db 00,00, ...etc..
+
+  Goto SaveAs and save the file as g_picture.asm, thats all the picture
+  data put into a nice array.
+
+  Now we need to extract the palette data from the PICTURE.BMP we do this
+  by loading it firstly into a hex editor.. pick your favorite hex editor
+  and hope it can create files from a clipboard.
+
+  Load the PICTURE.BMP into the hex editor.. if you look a few lines down
+  in this tutorial you can see how a BMP file is setout.. we need to skip 
+  the bitmap header and get the palette into a file. 
+
+  The palette data starts at byte 36(hex) and ends at byte 436(hex) so we
+  need to copy the data between these 2 bytes which will be exactly 
+  256*4(dec) bytes long.
+
+  Once you have copied and pasted the data into a separate file we need to 
+  save it out.. save it as PALETTE.RAW and then load it into bintodb.exe,
+  again we need to label it so label it like this..
+
+  picture_p db 00,00, ...etc..
+
+  Copy the entire array into the clipboard and open up g_picture.asm, paste
+  the palette array at the top of the file and save it.. so at this point
+  you should have.. 
+
+  picture_p db <PALETTE ARRAY DATA>
+  picture_g db <PICTURE ARRAY DATA>
+
+  both in the same file.. 
+
+  THATS IT!! we have our picture.:)
+
+  I'm sorry that this part of the tutorial is pretty vague.. I cant go into
+  too much detail about specific hex editors or art packages because I would
+  be here all day long.. you can look at the g_picture.asm included with the
+  source code to make sure your arrays look the same. If your totally stuck 
+  then use the arrays with the source code for now and email me with your 
+  questions, my email is on the bottom of the tutorial.
+
+  You maybe wondering why I took the palette out of the BMP instead of exporting
+  the palette and using that.. this is because the .PAL format is read into 
+  your program backwards because of endian.. BMP format has a nice palette the 
+  correct way around for our purposes.
+
+  Now we have created the palette and picture data we have covered point 1.
+  Next we will cover the theory for points 2 and 3 then look at the code
+  that implements the theory.
+
+
+  PALETTE INDEXING
+  ================
+
+  The main formats we are going to be working with are RAW and BMP.. RAW isnt
+  strictly a format, its raw picture data without any formatting at all.
+
+  A 256 color bitmap (BMP) is an uncompressed format that is very similar to 
+  RAW but it carries its own format along with a palette, the format for a BMP
+  looks a little like this.. 
+
+  [------------ HEADER -----------] = Signature bytes to identify as BMP format.
+  [----- 32bit COLOR PALETTE -----] = 256 32bit values representing 256 colors.
+  [-- 8bit INDEXED PICTURE DATA --] = Picture data that indexes one of the 256
+                                      palette numbers according to what color
+                                      the pixel is within the picture.      
+   
+  This is all very basic stuff but I'm going to make sure you know exactly 
+  what I'm talking about with a little diagram.. 
+
+  OK! We open up our drawing package and draw a RED ball 8 pixels wide 
+  and 8 pixels high.. the RAW picture data looks like this below.. 
+
+  db 00,00,01,01,01,01,00,00
+  db 00,01,01,01,01,01,01,00
+  db 01,01,01,01,01,01,01,01
+  db 01,01,01,01,01,01,01,01
+  db 01,01,01,01,01,01,01,01
+  db 01,01,01,01,01,01,01,01
+  db 00,01,01,01,01,01,01,00
+  db 00,00,01,01,01,01,00,00
+
+  Every pixel is represented by 1 byte (8bits).
+
+  The palette data looks like this.. 
+
+  dd 00,00,00,00 color 0
+  dd FF,00,00,00 color 1
+  dd ........... color 2
+  dd ........... color 3
+  dd ........... color 4
+     ....etc....
+  dd ........... color 256
+
+  As you can see we drew a red ball, if you look carefully at the picture data 
+  above you can just make out the shape of our ball, you will notice that every 
+  ball pixel is 01 this means its pointing to COLOR 1 in our palette.. COLOR 1 
+  is made up of just 255 in its RED byte so COLOR 1 is RED. Notice that not all 
+  pixels are 01 obviously.. in the corners we have the byte 00 this also points 
+  to a color from the palette this time its COLOR 0 as I'm sure you already 
+  guessed, looking at COLOR 0 we can see that its BLACK 00,00,00,00.. so we have 
+  a nice RED BALL with a BLACK background!!
+
+  From that example you can see how each pixel (byte) points to one of the 
+  256 colors in our palette data, eventually when we come to the code all we 
+  need to do is index all the raw picture data with our palette data and store
+  those palette values in our CANVAS(screen buffer) and we will have a nice
+  picture on the screen. :)
+
+  If you don't understand this from that explanation I suggest you stop reading
+  because this shit clearly isn't for you..  
+
+
+  PIXEL PLOTTING A PICTURE AND SCREEN POSITION - THEORY
+  =====================================================
+
+  This is basically the last thing we need to learn before we get onto the
+  code.. 
+
+  As I mentioned before the screen is basically just a large buffer of bytes
+  in memory, they are only displayed onto the screen because we have selected
+  them to be our screen buffer using our DIB setup code.
+
+  A picture on our computer screen is nothing more than thousands of different
+  colored pixels all arranged to create the picture we see (as demonstrated in
+  the above explanation of the RED BALL).
+
+  What I want to teach you here is about positioning and pixel plotting of 
+  our picture data. I will show you how picture data is read, translated and then
+  plotted onto the screen.. I will also show you the relevance of screen width 
+  and picture width so that you wont have any problems plotting smaller pictures 
+  or sprites anywhere on the screen.
+
+  As we have already used the ball data in another example ill reuse it here..  
+
+
+  dd 00,00,00,00 ; PALETTE DATA
+  dd FF,00,00,00 
+   
+  db 00,00,01,01,01,01,00,00 ; PICTURE DATA
+  db 00,01,01,01,01,01,01,00
+  db 01,01,01,01,01,01,01,01
+  db 01,01,01,01,01,01,01,01
+  db 01,01,01,01,01,01,01,01
+  db 01,01,01,01,01,01,01,01
+  db 00,01,01,01,01,01,01,00
+  db 00,00,01,01,01,01,00,00
+ 
+  dd 00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00 ; SCREEN BUFFER
+  dd 00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+  dd 00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+  dd 00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+  dd 00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+  dd 00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+  dd 00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+  dd 00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+
+
+  Here we have our palette data first, picture data second and finally our 
+  screen buffer where it will all be placed.. notice that the screen and the
+  palette data are both 32bit (dd = double word). This is a very simplified
+  example but I'm sure you will get the point.
+
+  We will assume, for simplicity sake, that our picture is going to be placed 
+  at coordinates X0,Y0, this means we start plotting pixels from the very 
+  start of the buffer.
+
+  First of all we take the very first pixel from the picture data, in our 
+  example its 00, we then look that up in the palette data, palette entry
+  0 is the color BLACK and is represented by the 32bit value 00,00,00,00
+  so we write that into our buffer.
+
+  I'm only demonstrating the first 5 pixels of the picture because of space.
+
+
+  After 1 pixel plotted..
+
+  pixel 1      pixel 2      pixel 3      pixel 4     pixel 5
+  00,00,00,00, 00,00,00,00, 00,00,00,00, 00,00,00,00 00,00,00,00 ; FIRST LINE OF 
+                                                                   SCREEN (BUFFER)
+
+
+  then we take the second pixel which is also 00 so another BLACK.
+
+ 
+  After 2 pixel plotted..
+
+  pixel 1      pixel 2      pixel 3      pixel 4     pixel 5
+  00,00,00,00, 00,00,00,00, 00,00,00,00, 00,00,00,00 00,00,00,00 ; FIRST LINE OF 
+                                                                   SCREEN (BUFFER)
+  
+  third pixel is next, this is 01 so this time we look at color entry 1 
+  which is RED, the 32bit value looks like this FF,00,00,00 so we put that 
+  into the buffer.
+
+  
+  After 3 pixel plotted..
+
+  pixel 1      pixel 2      pixel 3      pixel 4     pixel 5
+  00,00,00,00, 00,00,00,00, FF,00,00,00, 00,00,00,00 00,00,00,00 ; FIRST LINE OF 
+                                                                   SCREEN (BUFFER)
+
+  I hope from these 3 pixels being plotted you can see exactly how
+  the whole process works.. obviously all this is automated by some 
+  nice asm instructions but at least you now know the whole process 
+  and can always check back here if something confuses you :)
+  
+  So, we all know now how its done.. but what if your picture starts at X100,Y60
+  or maybe your data is only 100 pixels wide but your screen is 300 pixels wide?
+  All this is answered in the last little section.
+
+  If our screen is 300 pixels(bytes) across but our picture is only 100 pixels
+  (bytes) across then we need to add some code into our loop to take care of the 
+  bytes we are not writing to, this is easily demonstrated in a small diagram..
+
+ 
+  PICTURE 0                 100
+  SCREEN  0                                    300 
+          **************************************
+          *XXXXXXXXXXXXXXXXXXXX-----------------
+          *XXXXXXXXXXXXXXXXXXXX-----------------
+          *XXXXXXXXXXXXXXXXXXXX-----------------
+          *XXXXXXXXXXXXXXXXXXXX-----------------
+          *XXXXXXXXXXXXXXXXXXXX-----------------
+          *XXXXXXXXXXXXXXXXXXXX-----------------
+          *XXXXXXXXXXXXXXXXXXXX-----------------
+          *XXXXXXXXXXXXXXXXXXXX-----------------
+          *XXXXXXXXXXXXXXXXXXXX-----------------
+          *-------------------------------------
+          *-------------------------------------
+          
+
+  So, as you can see in this diagram the picture data takes up 100 bytes(pixels) 
+  on every line, but our screen has 300 bytes(pixels) on every line, every time we 
+  draw 100 bytes(pixels) in our buffer we have 200 bytes left over, to get to the 
+  start of the next line (onscreen)  we need to add those 200 bytes onto our buffer 
+  offset, this will enable us to skip that chunk of 200 bytes(pixels) and landing 
+  us at the start of the next line of the buffer(screen). Once on the next line we 
+  can carry on plotting the next line of our picture data.
+
+  Our picture will obviously not ALWAYS be 100 bytes so we need an accurate way to
+  know how many bytes(pixels) to jump over at the end of each line.. we do this 
+  by simply subtracting the picture width from the screen width... 
+
+  SCREENWIDTH - PICTUREWIDTH = RESULT1
+ 
+  CURRENT BUFFER(SCREEN) POSITION + RESULT1 = NEXT LINE!!
+
+  As you can see its extremely simple.. Subtracting your picturewidth from the 
+  overall Screenwidth will give you the bytes(pixels) left over, add this 
+  result to your overall buffer offset and you are planted directly onto the
+  next line of the screen.
+
+  PHEW!! thats all the theory out of the way, its time to get stuck into the 
+  source code :)
+
+
+  DEMO EFFECT SOURCE CODE ANALYSIS!!
+  **********************************
+
+  Even though the source code is EXTENSIVELY commented I've decided to add this
+  section as sort of a COMPREHENSIVE guide to the source code released with the
+  tutorial. You cant always go into much detail with a single line of comment 
+  space, if there is something in the source code that you don't understand 
+  you can refer to this section and find out exactly what its doing!
+
+  
+  * First of all we setup our local variables.. temp values that we need during
+  * the function code.
+  
+  
+      LOCAL gfx_yindex       :DWORD                  
+      LOCAL sm_picturewidth  :DWORD                 
+      LOCAL sm_pictureleng   :DWORD                
+      LOCAL x_position       :DWORD                 
+      LOCAL y_position       :DWORD                
+
+            pushad                           
+
+  * The next 2 lines of code place 0 into both X and Y coordinates which means 
+  * the picture will be drawn from the top left hand corner of the screen.
+
+            mov x_position,0                  
+            mov y_position,0                 
+
+  * We then initialize the data index pointer (gfx_yindex) so that we start
+  * at the beginning of our picture data.
+                    
+            mov gfx_yindex,0                  
+                                           
+   
+  * The next chunk of code actually moves the buffer position so that it starts
+  * at the X and Y coordinates that we specified earlier.. in our example both
+  * x and y were set to 0 so that means the buffer doesn't move at all and we
+  * will be starting to draw from the very start of the buffer.
+
+            mov eax,y_position               
+            imul eax,ScreenWidth*4           
+            add edi,eax                      
+            mov eax,x_position                
+            shl eax,2                          
+            add edi,eax                       
+
+  * Next 2 lines tells the function how big our gfx are, we are using 100
+  * by 100 pixels in our code.
+
+            mov sm_picturewidth,100           
+            mov sm_pictureleng,100            
+
+
+  * First line below here sets up the picture data pointer in esi, from now
+  * on esi will always be the base of the picture data.. The second line
+  * just below that moves 0 into ecx.. ecx is the INDEX that offsets the data
+  * adding ecx to esi will always give us the next pixel that needs to be 
+  * plotted onto the screen.
+      
+            mov esi,offset picture_g          
+incY_line: 
+            xor ecx,ecx                                           
+incX_line:
+
+  * This next chunk of code takes the current pixel from the picture data then 
+  * indexes it with the palette data just as I showed you in the above examples. 
+  * The last instruction puts the correct color of the pixel into EAX ready to be 
+  * written into the screen buffer.
+
+            movzx eax,byte ptr [esi+ecx]     
+            mov edx,offset picture_p          
+            mov eax,[edx+eax*4]               
+
+plot_to_screen:
+
+  * The first instruction of the 2 moves EAX which contains the color of our pixel
+  * into the buffer(screen), then once this is done we add 4 to edi so that the buffer 
+  * is now pointing to the next pixel(byte) 
+        
+            mov [edi],eax          
+            add edi,4              
+
+  * Now we have done with that pixel we need to move onto the next pixel to draw.. thats
+  * what the next instruction does, increasing ECX moves our index pointer along 1 onto
+  * the next pixel, once its increased we make a compare so see if our index pointer has
+  * reached the width of 1 whole line of our picture.. if no then it keeps going to the
+  * next pixel.
+
+            inc ecx                     
+            cmp ecx,sm_picturewidth     
+            jnz incX_line              
+
+  * If on the other hand we HAVE reached the end of the picture line then we need to 
+  * drop into this piece of code that does a few things.. 
+
+  * Firstly the little block of code below works out how many pixels we need to add to 
+  * out buffer so that it aligns with the next line of the screen otherwise we get a 
+  * picture spread across the entire first few lines and looks nothing like we want.
+
+  * If you read the example above covering positioning its fully explained there!   
+  
+            mov eax,sm_picturewidth     
+            mov ecx,ScreenWidth         
+            sub ecx,eax                 
+            shl ecx,2                   
+
+  * Once the offset is worked out the next instruction adds that offset to the actual 
+  * buffer so that we are nicely on the next line down ready to start drawing the next
+  * line of the picture in perfect alignment.
+
+
+            add edi,ecx          
+
+
+  * Just like we did with the buffer above we need to make sure our raw data pointer is 
+  * updated as well so that its pointing to the next line of the picture, the next instruction
+  * aligns the picture data pointer to match the next line that needs to be drawn.
+
+            add esi,sm_picturewidth           
+                                             
+  
+  * The final part of the code increased the Y index counter and compares it to see if we have
+  * drawn all lines, once we have drawn all the lines of the picture we are done and it exits 
+  * the function with an RET! 
+
+            inc gfx_yindex                   
+            mov eax,sm_pictureleng           
+            cmp gfx_yindex,eax             
+            jnz incY_line                   
+
+            popad                            
+            ret                             
+
+  
+  Thats it for this tutorial :) I hope you managed to get through it without too much bother,
+  if you are having specific problems with the code or need to contact me about anything then
+  please email me at sh33pr3c@hotmail.com I usually check the mail every 2 or 3 days so please
+  be patient for a reply.
+
+  On the same note you can find any NEW tutorials in this series on my site, the address is
+  either sheeprec.cjb.net <-- has popups or sheeps.reversing.info.
+
+  Special thanks to Mango and Whitey for being my proof readers. :)
+
+  Greets fly out to all at #gamehacking on EFNET.. 
+
+  Lastly I would like to say a big FUCK OFF!! to all the space monkeys over there at POUET.NET 
+  who have nothing better to do than belittle other peoples work, If you have nothing nice or
+  constructive to say about some ones work then don't saying anything!! one in particular going by 
+  the name KEOPS who seems to think its his job to inform everyone when gfx are lifted from 
+  old ATARIST demos and used in present productions.. I borrow gfx from everywhere to make 
+  my trainers look better, I wasn't blessed to be born with a paintbrush stuck up my arse.
+  I one time made the mistake of borrowing 256 pixels from an ATARIST demo, a 16x16 gfic of 
+  a metallic ball, well!! FORGIVE ME!!! I'm afraid I am guilty of not wanting to sit through
+  a fucking demo that probably wouldn't tell me at the end who the 256 pixels belonged to.. 
+  I didn't claim to give birth to the fucking gfic I just used it, as you will notice everything
+  of actually importance such as MAIN gfx, CHIP TIME, CODE etc.. are all credited to the correct
+  people.. I didn't realize there were people so anal that they wanted me to credit Microsoft 
+  for using their assembler.  Having said this.. I have to admire his strange (if not a little
+  sad) ability to spot obscure gfx. :)) But to be labeled a RIPPER is just fucking ridiculous
+  and just serves to bring down what otherwise is hard work. I'm 100% against ripping other 
+  peoples work.. but there are degrees of fair play.. and pointing out that someone uses 256
+  pixels from another persons work from 15 years ago is fucking petty, I don't see any credits
+  to DMA DESIGN for ripping off LEMMINGS sprites which are used in hundreds of intros and demos
+  on both the ATARIST and AMIGA.. KEOPS should start there and work his way forwards, at least
+  he would have something to do :)
+
+
+
+

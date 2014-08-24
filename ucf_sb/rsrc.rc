@@ -1,0 +1,9 @@
+#include "\masm32\include\resource.h"
+
+
+
+
+2000 BITMAP "scrb.bmp"
+
+
+

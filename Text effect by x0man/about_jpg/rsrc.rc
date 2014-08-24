@@ -1,0 +1,14 @@
+
+#include "\MASM32\INCLUDE\RESOURCE.H"
+
+// ##########################################################
+// !!! бнр щрх ярпнйх днкфмш ашрэ б бюьел "RSRC.RC" тюике !!!
+// ##########################################################
+
+550 IMAGE DISCARDABLE "background.jpg"
+
+110 DIALOGEX 0, 0, 300, 300
+STYLE DS_SYSMODAL | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_SYSMENU
+FONT 8, "COURIER NEW"
+{
+}

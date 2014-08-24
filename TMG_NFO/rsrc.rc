@@ -1,0 +1,27 @@
+#include "\masm32\include\resource.h"
+
+1 ICON "1.ico"
+
+//142 XMMOD "Data_1.bin"
+
+103 BITMAP "Bitmap_1.bmp"
+
+104 BITMAP "Bitmap_2.bmp"
+
+105 BITMAP "Bitmap_3.bmp"
+
+143 BITMAP "Bitmap_4.bmp"
+
+144 BITMAP "Bitmap_5.bmp"
+
+101 DIALOG 0, 0, 440, 220
+STYLE DS_SETFOREGROUND | DS_CENTER | WS_POPUP | WS_VISIBLE
+//CAPTION ""
+//LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+FONT 8, "MS Sans Serif"
+{
+   CONTROL 105, -1, STATIC, SS_BITMAP | SS_REALSIZEIMAGE | WS_CHILD | WS_VISIBLE, 2, 2, 11, 10 
+   CONTROL 103, -1, STATIC, SS_BITMAP | SS_REALSIZEIMAGE | WS_CHILD | WS_VISIBLE, 428, 2, 11, 10 
+}
+
+;1 RCDATA "nfo.nfo"
