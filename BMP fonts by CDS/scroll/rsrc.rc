@@ -1,0 +1,28 @@
+#include "\masm32\include\resource.h"
+
+;################################################################################
+
+
+
+1 BITMAP DISCARDABLE "../font.bmp"
+2 BITMAP "../bg.bmp"
+
+#define  ID_BUTTON 300
+#define  ID_STATIC -1
+
+;################################################################################
+
+100 DIALOGEX 0, 0, 290, 130
+STYLE DS_MODALFRAME  | 0x0004 | DS_CENTER | WS_CAPTION | WS_SYSMENU | WS_VISIBLE | WS_POPUP
+CAPTION "BMP FONT ALGO no dib shit are used!"
+FONT 8, "MS Sans Serif"
+BEGIN
+    
+    //CONTROL 2, -1, STATIC, SS_BITMAP | SS_CENTERIMAGE, 0, 0, 150, 141
+    
+   
+    //DEFPUSHBUTTON   "Close",ID_BUTTON,53,152,48,16,0,WS_EX_STATICEDGE
+END
+
+;####################################################################################
+
