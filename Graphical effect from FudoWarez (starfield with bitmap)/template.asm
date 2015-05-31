@@ -315,6 +315,15 @@ UpdateScroller proc
 	.while eax != 150
 
 	invoke Sleep,20
+	; Small mod for fading text by Mr.ROSE
+	; Remove the "invoke Sleep,20" above and And remove the ";"
+	; 
+	;invoke Sleep,3
+	;push fade
+	;push Yellow		;white
+	;call FadeIn_Out
+	;mov fade,eax
+	
 	inc time
 	mov eax,time
 
