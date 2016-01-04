@@ -5,9 +5,10 @@
 	; Укажем что используем JPG в ресурсах...
 	USE_JPG	=	1
 	;^^^^^^^^^^^^^^^^^^
+	; determine that we use JPG in recources
 
-	include ..\inc\inc.asm		; Подключаем файлики
-	include ..\inc\about.asm	; Сам код для эффекта
+	include inc.asm		; Подключаем файлики
+	include about.asm	; Сам код для эффекта
 
 .data
 
