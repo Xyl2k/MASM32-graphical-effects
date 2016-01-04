@@ -1,16 +1,16 @@
-include		windows.inc
-include		user32.inc
-include		kernel32.inc
-include		comctl32.inc	;windows common controls
-include gdi32.inc
-includelib gdi32.lib
-include winmm.inc
-includelib winmm.lib
+include		\masm32\include\windows.inc
+include		\masm32\include\user32.inc
+include		\masm32\include\kernel32.inc
+include		\masm32\include\comctl32.inc	;windows common controls
+include \masm32\include\gdi32.inc
+includelib \masm32\lib\gdi32.lib
+include \masm32\include\winmm.inc
+includelib \masm32\lib\winmm.lib
 include ufmod.inc
 includelib ufmod.lib
-includelib	user32.lib
-includelib	kernel32.lib
-includelib	comctl32.lib	;windows common controls
+includelib	\masm32\lib\user32.lib
+includelib	\masm32\lib\kernel32.lib
+includelib	\masm32\lib\comctl32.lib	;windows common controls
 
 DlgProc		PROTO	:DWORD,:DWORD,:DWORD,:DWORD
 
