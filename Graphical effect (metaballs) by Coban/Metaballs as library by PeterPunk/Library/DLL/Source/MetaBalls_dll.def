@@ -1,0 +1,11 @@
+LIBRARY MetaBalls
+EXPORTS mbCreate
+EXPORTS mbDestroy
+EXPORTS mbSetFont
+EXPORTS mbSetText
+EXPORTS mbSetTextColor
+EXPORTS mbSetInnerColor
+EXPORTS mbSetBorderColor
+EXPORTS mbSetOuterColor
+EXPORTS mbSetSizeBalls
+EXPORTS mbSetSizeBorders
