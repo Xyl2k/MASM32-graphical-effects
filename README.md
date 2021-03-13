@@ -1,7 +1,11 @@
-MASM32 graphical effects
+MASM32 graphical effects code collection
 =========
-Various graphic effects from the scene.<br />
-WinASM friendly.<br />
+Various graphical effects from the warez scene.
+This collection is mixed with original code and ripped code.<br />
+Credits goes to the autors.<br />
+Each effect contain a [WinASM](https://www.winasm.org/) project file, and codes can be compiled also from their respective ```make.bat``` if you don't want to launch your favorite IDE.<br />
 <br />
-Here is a preview (not of everything):
-![2016-01-04_19-44-21](https://cloud.githubusercontent.com/assets/8536299/12097785/f95b32ca-b31d-11e5-9f3f-86b426f24799.png)
+Preview of not of everything but a good part of this code collection:
+![alt text](preview.png "Compiled codes preview")
+<br />
+See also my [MASM32 Code collection for reverse engineers](https://github.com/Xyl2k/Xylitol-MASM32-snippets).

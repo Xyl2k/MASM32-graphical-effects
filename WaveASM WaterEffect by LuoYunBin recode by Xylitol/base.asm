@@ -2,15 +2,15 @@
 .model  flat, stdcall
 option  casemap :none   ; case sensitive
 
-include         windows.inc
-include         user32.inc
-include         kernel32.inc
-include         gdi32.inc
-include         C:\masm32\macros\macros.asm
+include         \masm32\include\windows.inc
+include         \masm32\include\user32.inc
+include         \masm32\include\kernel32.inc
+include         \masm32\include\gdi32.inc
+include         \masm32\macros\macros.asm
 include         WaveObject.asm
-includelib      user32.lib
-includelib      kernel32.lib
-includelib      gdi32.lib
+includelib      \masm32\lib\user32.lib
+includelib      \masm32\lib\kernel32.lib
+includelib      \masm32\lib\gdi32.lib
 
 DlgProc     PROTO :DWORD,:DWORD,:DWORD,:DWORD
 szTitle     db  'Error',0

@@ -92,8 +92,8 @@ WinMain proc hInst:HINSTANCE,hPrevInst:HINSTANCE,CmdLine:LPSTR ,CmdShow:SDWORD
     ; Centre window at following size
     ;================================
 
-    mov Wwd,600
-    mov Wht,400
+    mov Wwd,450
+    mov Wht,115
 
     invoke GetSystemMetrics,SM_CXSCREEN
     invoke TopXY,Wwd,eax
