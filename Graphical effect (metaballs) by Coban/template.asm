@@ -1,29 +1,82 @@
+
+.586p
+.mmx			
+.model flat, stdcall
+option casemap :none
+
+;******************************************************************************
+;* INCLUDES                                                                   *
+;******************************************************************************
+include				\masm32\include\windows.inc
+include				\masm32\include\user32.inc
+include				\masm32\include\kernel32.inc
+include				\masm32\include\shell32.inc
+include				\masm32\include\advapi32.inc
+include				\masm32\include\gdi32.inc
+include				\masm32\include\comctl32.inc
+include				\masm32\include\comdlg32.inc
+include				\masm32\include\masm32.inc
+include				\masm32\include\winmm.inc
+include				\masm32\macros\macros.asm
+
+includelib			\masm32\lib\user32.lib
+includelib			\masm32\lib\kernel32.lib
+includelib			\masm32\lib\shell32.lib
+includelib			\masm32\lib\advapi32.lib
+includelib			\masm32\lib\gdi32.lib
+includelib			\masm32\lib\comctl32.lib
+includelib			\masm32\lib\comdlg32.lib
+includelib			\masm32\lib\masm32.lib
+includelib			\masm32\lib\winmm.lib
+
+
+include ufmod.inc
+includelib ufmod.lib
+;******************************************************************************
+;* PROTOTYPES                                                                 *
+;******************************************************************************
+DialogProc 			proto :dword,:dword,:dword,:dword
+AboutProc 			proto :dword,:dword,:dword,:dword
 UpdateScroller			proto
 CreateTVBox 			proto :dword
 UpdateTVBox 			proto
 Random 				proto :dword
 BallSize 				proto :dword,:dword
 BallFpu 				proto
-Aboutproc          PROTO	:DWORD,:DWORD,:DWORD,:DWORD
+;******************************************************************************
+;* DATA & CONSTANTS                                                           *
+;******************************************************************************
+.const
+BTN_ABOUT			equ 102
 
 .data
-AboutFont LOGFONT <14, 7, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_CHARACTER_PRECIS, 										CLIP_DEFAULT_PRECIS,PROOF_QUALITY,DEFAULT_PITCH,"courier new">
+AboutFont			LOGFONT <14, 7, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_CHARACTER_PRECIS, 										CLIP_DEFAULT_PRECIS,PROOF_QUALITY,DEFAULT_PITCH,"courier new">
 
-szAboutText db "rEvERs0rEd KeygenMe",13
-			db "Coded by Xylitol // rEd CrEw",13,13
-			db "Protection: Find it :D",13,13
-			db "Greetz goes to everyone :D",13
-			db "Thank's to coban for the nice effect",13
-                        db "And especially to my mate: Xsp!d3r",13
-			db 13,13,13
-			db "website:",13
-                        db "http://xylitol.free.fr",13
-			db "http://redcrew.astalavista.ms",0
+szAboutText 		db " Your TeaM Proudly Presents a keYgen for:",13
+			db "Program name here 1.0",13,13,13,13
+			db "Coded by:",13
+			db "FudoWarez",13,13,13
+			db "Greetz to:",13
+			db "greetz",13
+			db "greetz",13
+			db "greetz",13
+			db "greetz",13
+			db "greetz",13
+			db "greetz",13
+			db "greetz",13
+			db "greetz",13,13,13
+			db "----------------",13
+			db "Team ICU",13
+			db "Forever :)",13
+			db "----------------",13,13,13
+			db "Home Page:",13
+			db "www.tuts4you.com",0
 
 			
 nrandom_seed dd "O63."
 
 .data?
+
 szbla	dd 30 dup (?)
 
 WX	equ 314
@@ -36,11 +89,13 @@ srcdc	dd ?
 hdcx	dd ?
 thread	dd ?
 threadID	dd ?
-
-.const
-		MUSIC          		equ     945
-
+;******************************************************************************
+;* CODE                                                                       *
+;******************************************************************************
 .code
+
+include music.asm
+
 divisor:
 dd 700.000
 dd 25.00000
@@ -69,39 +124,61 @@ dd WX/6
 dd WX/2
 dd WX/5
 
+main:
+	invoke InitCommonControls
+	invoke GetModuleHandle,0
+	 invoke DialogBoxParam,eax,1,0,addr DialogProc,0
+	 ;invoke DialogBoxParam, hInstance, 102, hWnd, offset Aboutproc, 0
+	invoke ExitProcess,0
+align 4
+DialogProc proc uses ebx esi edi hwnd:dword,message:dword,wparam:dword,lparam:dword
+	
+	mov eax,message
+	.if eax==WM_INITDIALOG
 
-;========================================================================
-align dword
-Aboutproc proc hWin:DWORD,uMsg:DWORD,wParam:DWORD,lParam:DWORD
+	.elseif eax==WM_COMMAND
+		mov eax,wparam
+		.if ax==BTN_ABOUT
+		invoke GetModuleHandle,0
+		invoke DialogBoxParam,eax,2,hwnd,addr AboutProc ,WM_INITDIALOG
+		.endif
+	.elseif eax==WM_CLOSE
+		invoke EndDialog,hwnd,0
+	.endif
+	xor eax,eax
+	ret 	                         
+DialogProc endp
+
+align 4
+AboutProc proc uses ebx esi edi hwnd:dword,message:dword,wparam:dword,lparam:dword
 	local rect:RECT
-	mov	eax,uMsg
-	push hWin
-	;pop handle
-	.if	eax == WM_INITDIALOG
-		invoke GetParent,hWin
+	mov eax,message
+	.if eax==WM_INITDIALOG
+
+		invoke GetParent,hwnd
 		mov ecx,eax
 		invoke GetWindowRect,ecx,addr rect
 		mov edi,rect.left
 		mov esi, rect.top
-		add edi,25
-		add esi,100
-		invoke SetWindowPos,hWin,HWND_TOPMOST,edi,esi, WX,WY,0
-		invoke CreateTVBox,hWin
-		invoke uFMOD_PlaySong,MUSIC,0,XM_RESOURCE
-	.elseif eax==WM_LBUTTONDOWN
-		invoke SendMessage,hWin,WM_NCLBUTTONDOWN,HTCAPTION,0
-	.elseif eax==WM_RBUTTONDOWN
-		invoke SendMessage,hWin,WM_CLOSE,0,0
-	.elseif	eax == WM_CLOSE
-		invoke uFMOD_PlaySong,0,0,XM_RESOURCE
+		add edi,2
+		add esi,22
+		invoke SetWindowPos,hwnd,HWND_TOP,edi,esi, WX,WY,0
+		invoke CreateTVBox,hwnd
+		invoke uFMOD_PlaySong,OFFSET xm,xm_length,XM_MEMORY
+	.elseif eax==WM_COMMAND
+
+	.elseif eax == WM_LBUTTONDOWN
+		invoke  SendMessage,hwnd,WM_CLOSE,0,0
+
+	.elseif eax==WM_CLOSE
 		invoke TerminateThread,threadID,0
 		invoke DeleteDC,srcdc
-		invoke	EndDialog, hWin, 0
+		invoke uFMOD_PlaySong,0,0,0
+		invoke EndDialog,hwnd,0
 	.endif
-	xor	eax,eax
-	ret
-Aboutproc endp
-
+	xor eax,eax
+	ret 	                         
+AboutProc endp
 
 align 4
 UpdateScroller proc 
@@ -336,7 +413,7 @@ BallSize proc uses esi edi ebx a:dword,b:dword
 		.endif
 		xor edx,edx
 		mov ecx,eax
-		mov eax,0445C4h
+		mov eax,0445C0h
 		div ecx
 		add ebx,eax
 		add esi,8
@@ -345,3 +422,6 @@ BallSize proc uses esi edi ebx a:dword,b:dword
 	mov eax,ebx
 	ret
 BallSize endp
+
+db 'fudowarez!^2o10'
+end main
