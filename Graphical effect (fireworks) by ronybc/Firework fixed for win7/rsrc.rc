@@ -1,0 +1,27 @@
+500 ICON MOVEABLE PURE LOADONCALL DISCARDABLE "FW03.ICO"
+ 
+600 MENUEX MOVEABLE IMPURE LOADONCALL DISCARDABLE
+BEGIN
+    POPUP "&Fire", , , 0
+    BEGIN
+        MENUITEM "&Reset",1000
+        MENUITEM "&Exit ",1010
+    END
+    POPUP "&Effects", , , 0
+    BEGIN
+        MENUITEM "&Light and Smoke (blur MMX) ",1220    
+        MENUITEM "&Gravity and Atmosphere ",1200
+        MENUITEM "&Color Shifting Chemical (Far view)",1210    
+    END
+    POPUP "&Interval", , , 0
+    BEGIN
+        MENUITEM "&Delayed",1300
+        MENUITEM "&Violent",1310
+    END
+    POPUP "&Help", , , 0
+    BEGIN
+        MENUITEM "&About",1400
+    END
+END
+
+
