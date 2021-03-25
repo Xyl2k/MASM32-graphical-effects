@@ -238,7 +238,7 @@ CreateTVBox proc hwnd:dword
 	invoke CreateFontIndirect,addr AboutFont
 	invoke  SelectObject, srcdc, eax
 	invoke  SetBkMode, srcdc, TRANSPARENT
-	invoke  SetTextColor, srcdc, 0FEFEFEh
+	invoke  SetTextColor, srcdc, 0FEFEFEh ;00BAF999h (cyan)
 	invoke CreateThread,0,0,offset UpdateScroller,0,0,addr thread
 	mov threadID,eax
 	invoke SetThreadPriority,eax,THREAD_PRIORITY_LOWEST
@@ -297,7 +297,7 @@ UpdateTVBox proc uses edi esi ebx
 		.if eax > 500
 
 		mov eax,dword ptr [edi]
-		and eax,0FEFEFEh
+		and eax,0FEFEFEh ; ball color, 00BFFFh for blue.
 		shr eax,1
 		mov dword ptr [edi],eax
 
