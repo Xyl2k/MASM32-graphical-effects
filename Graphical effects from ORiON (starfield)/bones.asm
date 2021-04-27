@@ -197,11 +197,11 @@ loc_40141B:
 		idiv	ecx
 		add	esi, 0AFh
 		mov	dword_40CCA0, esi
-		add	eax, 50h
+		add	eax, 50h ; starfield position on the form
 		cmp	ecx, 0FFh
 		mov	dword_40CCA4, eax
 		jl	short loc_4014BE
-		mov	edx, 32h
+		mov	edx, 32h ; 50h might be better if you play with star colors
 		jmp	short loc_4014C5
 
 loc_4014BE:
@@ -213,9 +213,9 @@ loc_4014C5:
 		mov	dword_40CCB8, edx
 		and	ecx, 0FFh
 		mov	edx, ecx
-		shl	edx, 8
+		shl	edx, 8 ;5 stars colors
 		or	edx, ecx
-		shl	edx, 8
+		shl	edx, 8 ;5 stars colors
 		or	edx, ecx
 		push	edx		; COLORREF
 		push	eax		; int
@@ -289,7 +289,7 @@ ScrollMain	proc
 		mov	Rect.bottom, ecx
 		jnz	short loc_4012FC
 		mov	edx, dword_40E504
-		cmp	edx, 3
+		cmp	edx, 3 ; scrolltext speed
 		jz	short loc_4012D4
 		test	edx, edx
 		jnz	short loc_4012E6
@@ -373,7 +373,7 @@ loc_401332:
 		mov	hFont, eax
 		
 		invoke SelectObject,ScrollBackDC,hFont
-		invoke SetTextColor,ScrollBackDC,0FFFFFFh
+		invoke SetTextColor,ScrollBackDC,0FFFFFFh ; Colour of Scroller text in About, for green: 0000FB00h
 		invoke SetBkColor,ScrollBackDC,06D5F52h
 		invoke SetBkMode,ScrollBackDC,TRANSPARENT
 		
