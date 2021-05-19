@@ -1,0 +1,7 @@
+#include "\masm32\include\resource.h"
+
+101 DIALOGEX 0, 0, 135, 70
+STYLE DS_SYSMODAL | DS_CENTER | DS_SETFOREGROUND | WS_POPUP
+BEGIN
+  
+END
