@@ -1,0 +1,14 @@
+@ECHO OFF
+
+SET RELEASENAME=Sinewave
+
+SET MASMBINPATH=\masm32\BIN
+%MASMBINPATH%\RC /l0 rsrc.rc
+%MASMBINPATH%\ML /c /Cp /coff /Gz /nologo minip.asm
+%MASMBINPATH%\LINK /NOLOGO /OUT:%RELEASENAME%.exe /RELEASE /SUBSYSTEM:WINDOWS minip.obj rsrc.res
+
+DEL *.obj
+DEL *.res
+
+ECHO.
+PAUSE
