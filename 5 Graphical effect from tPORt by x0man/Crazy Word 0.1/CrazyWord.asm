@@ -296,14 +296,14 @@ loc_4018CD:
                 jnz     short loc_401939
                 mov     eax, [edx+1]
                 mov     ecx, eax
-                add     ecx, 7
+                add     ecx, 14h ; <-- hover intensity amount (20 in hex - original was 7)
                 cmp     dword_40C439, eax
                 jb      short loc_40193F
                 cmp     dword_40C439, ecx
                 ja      short loc_40193F
                 mov     eax, [edx+5]
                 mov     ecx, eax
-                add     ecx, 0Fh
+                add     ecx, 1Eh ; <-- jump sensitivity amount (30 in hex - original was 0F [ 15 ] )
                 cmp     dword_40C43D, eax
                 jb      short loc_401937
                 cmp     dword_40C43D, ecx
@@ -373,7 +373,7 @@ loc_401975:
                 push    hdc         
                 call    BitBlt
                 push    14h ; jumping revert time
-                call    Sleep
+                invoke Sleep,0Ah
                 cmp     dword_40C41D, 1
                 jnz     loc_401897
 				ret
