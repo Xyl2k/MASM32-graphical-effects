@@ -1,4 +1,3 @@
-
 .586p
 .mmx			
 .model flat, stdcall
@@ -13,7 +12,7 @@ include		\masm32\include\kernel32.inc
 include		\masm32\include\comctl32.inc
 include		\masm32\include\gdi32.inc
 include		\masm32\include\winmm.inc
-
+include		\masm32\macros\macros.asm
 
 
 
@@ -35,15 +34,44 @@ UpdateScroller			proto
 CreateTVBox 			proto :dword
 UpdateTVBox 			proto
 Random 				proto :dword
+
 BallSize 				proto :dword,:dword
 BallFpu 				proto
+BuildMatrix				PROTO
+
+
+
+$invoke MACRO Fun:REQ, A:VARARG
+  IFB <A>
+    invoke Fun
+  ELSE
+    invoke Fun, A
+  ENDIF
+  EXITM <eax>
+ENDM
+
 ;******************************************************************************
 ;* DATA & CONSTANTS                                                           *
 ;******************************************************************************
 .const
 BTN_ABOUT			equ 102
+EFFECTS_WIDTH	equ	344
+EFFECTS_HEIGHT	equ	207
 
 .data
+dwColor	dd	0
+x dd 0
+R	dd	0
+G	dd	0
+B	dd	0
+B1	dd	0
+B2	dd	0
+B3	dd	0
+B4	dd	0
+B5	dd	0
+B6	dd	0
+
+
 AboutFont			LOGFONT <14, 7, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_CHARACTER_PRECIS, 										CLIP_DEFAULT_PRECIS,PROOF_QUALITY,DEFAULT_PITCH,"courier new">
 
 szAboutText 		db " Your TeaM Proudly Presents a keYgen for:",13
@@ -70,7 +98,7 @@ szAboutText 		db " Your TeaM Proudly Presents a keYgen for:",13
 nrandom_seed dd "O63."
 
 .data?
-
+hMatrix		DWORD		?
 szbla	dd 30 dup (?)
 
 WX	equ 314
@@ -129,7 +157,11 @@ DialogProc proc uses ebx esi edi hwnd:dword,message:dword,wparam:dword,lparam:dw
 	
 	mov eax,message
 	.if eax==WM_INITDIALOG
-
+		mov hMatrix,$invoke	(VirtualAlloc,NULL,4*EFFECTS_WIDTH+100,MEM_COMMIT,PAGE_READWRITE)
+		invoke	BuildMatrix
+		
+		
+		
 	.elseif eax==WM_COMMAND
 		mov eax,wparam
 		.if ax==BTN_ABOUT
@@ -162,6 +194,7 @@ AboutProc proc uses ebx esi edi hwnd:dword,message:dword,wparam:dword,lparam:dwo
 	.elseif eax==WM_COMMAND
 
 	.elseif eax == WM_LBUTTONDOWN
+
 		invoke  SendMessage,hwnd,WM_CLOSE,0,0
 
 	.elseif eax==WM_CLOSE
@@ -186,6 +219,14 @@ UpdateScroller proc
 	@@:
 
       	invoke UpdateTVBox
+      	mov esi,hMatrix
+		add esi,dwColor
+		invoke  SetTextColor, srcdc,dword ptr [esi] ;put a ";" on this line if you do not want RGB on text.
+				add dwColor,4
+		
+		.if dwColor >= 4*EFFECTS_WIDTH
+			mov dwColor,0
+		.endif
 	invoke SetRect,addr rect, left,  int_position, WX, WY
 	invoke lstrlen,addr szAboutText
 	mov edi,eax
@@ -240,6 +281,7 @@ CreateTVBox proc hwnd:dword
 CreateTVBox endp
 
 align 4
+
 UpdateTVBox proc uses edi esi ebx
 
 	mov edi,ppv
@@ -291,7 +333,14 @@ UpdateTVBox proc uses edi esi ebx
 		.if eax > 500
 
 		mov eax,dword ptr [edi]
-		and eax,0FEFEFEh ; ball color, 00BFFFh for blue.
+		push ecx
+		invoke Random, 150
+		add al, 9
+		mov ah, al
+		shl eax, 8
+		mov al, ah
+		pop ecx
+		and eax,0FEFEFEh
 		shr eax,1
 		mov dword ptr [edi],eax
 
@@ -300,10 +349,27 @@ UpdateTVBox proc uses edi esi ebx
 		.if eax > 400
 
 		mov eax,dword ptr [edi]
+		push ecx
+		invoke Random, 150
+		add al, 9
+		mov ah, al
+		shl eax, 8
+		mov al, ah
+		pop ecx
 		and eax,1
 		add eax,1
 		shr eax,1
+		pushad
+		mov esi,hMatrix
+		add esi,dwColor
+		.if dwColor >= 4*EFFECTS_WIDTH
+			mov dwColor,0
+		.endif
+		
+		mov eax,dword ptr [esi]
 		mov dword ptr [edi],eax
+		popad
+		
 
 		.endif
 		.endif
@@ -417,5 +483,143 @@ BallSize proc uses esi edi ebx a:dword,b:dword
 	ret
 BallSize endp
 
-db 'fudowarez!^2o10'
+BuildMatrix	Proc
+;	*****************************
+;	RGB Matrix, not needed here
+;	*****************************
+;		mov esi,hMatrix
+;		mov x,0
+;		mov y,0
+;		mov R,255
+;		mov G,0
+;		mov B,0
+;		mov R1,0
+;		mov G1,0
+;		mov B1,0
+;		.repeat
+;			.repeat
+;				xor eax,eax
+;				mov ecx,B
+;				mov edx,B1
+;				sub ecx,edx
+;				mov ah,cl
+;				rol eax,8
+;				mov ecx,G
+;				mov edx,G1
+;				sub ecx,edx
+;				mov ah,cl
+;				mov ecx,R
+;				mov edx,R1
+;				add ecx,edx
+;				mov al,cl
+;				mov [esi],eax
+;				add esi,4
+;				invoke SetPixel,wDC,x,y,eax
+;				inc G
+;				.if G >= 255
+;					inc G1
+;				.endif
+;				inc x
+;			.until x == EFFECTS_WIDTH
+;			mov x,0
+;			mov G,0
+;			mov G1,0
+;			dec R
+;			inc B
+;				.if B >= 255
+;					inc B1
+;				.endif
+;				.if R <= 0
+;					inc R1
+;				.endif
+;			inc y
+;		.until y == EFFECTS_HEIGHT
+;	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+;
+;	*****************************************************
+;		HSV Matrix here, but only [344;1] vector needed
+;		kinda lame implementation, but hey, it works :p
+;	*****************************************************
+	mov esi,hMatrix
+	mov x,0
+;	mov y,0
+;	.repeat
+		mov R,255
+		mov G,0
+		mov B,0
+		.repeat
+			xor eax,eax
+			mov ecx,B
+			mov ah,cl
+			rol eax,8
+			mov ecx,G
+			mov ah,cl
+			mov ecx,R
+			mov al,cl
+			mov [esi],eax
+			add esi,4
+			.if B1 != 1 && R >= 255 && B <= 0
+				mov R,255
+				mov B,0
+				add G,5
+				.if G >= 255
+					mov G,255
+					mov B1,1
+				.endif
+			.elseif B2 != 1 && G >= 255 && B <= 0
+				mov G,255
+				mov B,0
+				sub R,5
+				.if R == -1 ||  R == -2 ||  R == -3 || R <= 0
+					mov R,0
+					mov B2,1
+				.endif
+			.elseif B3 != 1 && R <= 0 && G >= 255
+				mov R,0
+				mov G,255
+				add B,5
+				.if B >= 255
+					mov B,255
+					mov B3,1
+				.endif
+			.elseif B4 != 1 && B >= 255 && R <= 0
+				mov B,255
+				mov R,0
+				sub G,5
+				.if  G == -1 ||  R == -2 ||  R == -3 ||  G <= 0
+					mov G,0
+					mov B4,1
+				.endif
+			.elseif B5 != 1 && G <= 0  && B >= 255
+				mov G,0
+				mov B,255
+				add R,5
+				.if R >= 255
+					mov R,255
+					mov B5,1
+				.endif
+			.elseif B6 != 1 && R >= 255 && G <= 0
+				mov R,255
+				mov G,0
+				sub B,5
+				.if  B == -1 ||  R == -2 ||  R == -3 ||  B <= 0
+					mov B,0
+					mov B6,1
+				.endif
+			.endif
+			inc x
+		.until x == EFFECTS_WIDTH
+		mov x,0
+		mov B1,0
+		mov B2,0
+		mov B3,0
+		mov B4,0
+		mov B5,0
+		mov B6,0
+;		inc y
+;	.until y == EFFECTS_HEIGHT
+;	mov y,0
+	Ret
+BuildMatrix endp
+
 end main
