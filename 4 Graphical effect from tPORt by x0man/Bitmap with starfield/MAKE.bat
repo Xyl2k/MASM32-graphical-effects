@@ -1,0 +1,14 @@
+@ECHO OFF
+
+SET RELEASENAME=ripped
+
+SET MASMBINPATH=\masm32\BIN
+%MASMBINPATH%\RC /l0 bones.rc
+%MASMBINPATH%\ML /c /Cp /coff /Gz /nologo bones.asm
+%MASMBINPATH%\LINK /NOLOGO /OUT:%RELEASENAME%.exe /RELEASE /SUBSYSTEM:WINDOWS bones.obj bones.res
+
+DEL *.obj
+DEL *.res
+
+ECHO.
+PAUSE
