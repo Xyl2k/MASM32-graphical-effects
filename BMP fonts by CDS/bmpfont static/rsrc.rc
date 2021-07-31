@@ -4,8 +4,8 @@
 
 
 
-1 BITMAP DISCARDABLE "../font.bmp"
-2 BITMAP "../bg.bmp"
+1 BITMAP DISCARDABLE "font.bmp"
+2 BITMAP "bg.bmp"
 
 #define  ID_BUTTON 300
 #define  ID_STATIC -1
