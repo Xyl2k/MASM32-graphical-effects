@@ -32,12 +32,15 @@ IDD_MAIN    	equ 1337
 IDC_TITLE		equ 1010
 IDC_NAME		equ 1013
 IDB_QUIT        equ 1004
+IDB_SMALL_QUIT  equ 2003
 EFFECTS_HEIGHT  equ 207
 EFFECTS_WIDTH   equ 344
 WX              equ 476
 WY              equ 202
 left            equ 0
 top             equ 30
+LEFT            equ 7
+DOWN            equ 30
 
 .data
 szTitle						db "Enjoy that rainbow wave effect on a black background :)",0
@@ -250,10 +253,10 @@ local rect:RECT,hDrawEffects:HANDLE
 		invoke	CenterWindow,hWnd
 		invoke	DrawXXControlButtons,hWnd
 		
-		mov hMatrix,$invoke	(VirtualAlloc,NULL,0*EFFECTS_WIDTH+100,MEM_COMMIT,PAGE_READWRITE)
-		invoke	BuildMatrix
-		mov hDrawEffects,$invoke (CreateThread,NULL,0,addr DrawEffects,hWnd,0,addr pIntroBackBufferThreadID)
-		invoke	SetThreadPriority,hDrawEffects,THREAD_PRIORITY_NORMAL
+        mov hMatrix,$invoke(VirtualAlloc,NULL,4*EFFECTS_WIDTH+100,MEM_COMMIT,PAGE_READWRITE)
+        invoke BuildMatrix
+        mov hDrawEffects,$invoke(CreateThread,NULL,0,addr DrawEffects,hWnd,0,addr pIntroBackBufferThreadID)
+        invoke SetThreadPriority,hDrawEffects,THREAD_PRIORITY_NORMAL
 	.elseIF uMsg == WM_CTLCOLORDLG
 		mov eax,wParam
 		invoke SetBkColor,eax,Black
@@ -262,18 +265,24 @@ local rect:RECT,hDrawEffects:HANDLE
 	.elseif uMsg==WM_CTLCOLOREDIT || uMsg==WM_CTLCOLORSTATIC
 		invoke SetBkMode,wParam,OPAQUE
 		invoke SetBkColor,wParam,000000h
-		invoke SetTextColor,wParam,0FCDC7Ch
+		invoke SetTextColor,wParam,White
 		invoke GetStockObject,BLACK_BRUSH
 		ret
 	.elseif uMsg == WM_CTLCOLORBTN
       invoke CreateSolidBrush, 000000FFh
       ret
 	.elseif	uMsg == WM_COMMAND
-		MOV EAX,wParam
-			.IF ax==IDB_QUIT
+		mov eax,wParam
+			.if ax == IDB_QUIT || ax == IDB_SMALL_QUIT
+            invoke VirtualFree,hMatrix,NULL,MEM_DECOMMIT
+            invoke DeleteObject,hBlackBrush
+            invoke CloseHandle,hDrawEffects
 			invoke EndDialog,hWnd,0
 		.endif
 	.elseif	eax == WM_CLOSE
+        invoke VirtualFree,hMatrix,NULL,MEM_DECOMMIT
+        invoke DeleteObject,hBlackBrush
+        invoke CloseHandle,hDrawEffects
 		invoke	EndDialog,hWnd,0
 	.endif
 
@@ -281,69 +290,65 @@ local rect:RECT,hDrawEffects:HANDLE
 	ret
 DlgProc	endp
 
-DrawEffects	Proc hWnd:HWND
-	local bmpi1:BITMAPINFO
+DrawEffects    Proc hWnd:HWND
+    local bmpi1:BITMAPINFO
 ; ---- Activate Vectors ---------------------------------------------------
 
-			mov hDC,$invoke (GetDC,hWnd)
-			invoke CreateCompatibleDC,hDC
-			mov wDC1,eax
-			mov wDC2,eax
-			invoke CreateCompatibleBitmap,hDC,EFFECTS_WIDTH,1
-			invoke SelectObject,wDC1,eax
-			invoke DeleteObject,eax
-			invoke CreateCompatibleBitmap,hDC,EFFECTS_WIDTH,1
-			invoke SelectObject,wDC2,eax
-			invoke DeleteObject,eax
-			_back:
-			invoke DrawColorScroller
-			.if hExit != TRUE
-				invoke	Sleep,20
-				invoke BitBlt,hDC,left,29,EFFECTS_WIDTH,1,wDC1,0,0,SRCCOPY
-				invoke BitBlt,hDC,344,29,EFFECTS_WIDTH,1,wDC1,0,0,SRCCOPY
-			
-				invoke BitBlt,hDC,left,25+EFFECTS_HEIGHT,EFFECTS_WIDTH,1,wDC2,0,0,SRCCOPY
-				invoke BitBlt,hDC,344,25+EFFECTS_HEIGHT,EFFECTS_WIDTH,1,wDC2,0,0,SRCCOPY
-
-				jmp _back
-			.endif	
-			mov x1,0
-		invoke	DeleteDC,wDC1
-		invoke	DeleteDC,wDC2
-	Ret
+            mov hDC,$invoke (GetDC,hWnd)
+            invoke CreateCompatibleDC,hDC
+            mov wDC1,eax
+            mov wDC2,eax
+            invoke CreateCompatibleBitmap,hDC,EFFECTS_WIDTH,1
+            invoke SelectObject,wDC1,eax
+            invoke DeleteObject,eax
+            invoke CreateCompatibleBitmap,hDC,EFFECTS_WIDTH,1
+            invoke SelectObject,wDC2,eax
+            invoke DeleteObject,eax
+            _back:
+            invoke DrawColorScroller
+            .if hExit != TRUE
+                invoke    Sleep,20
+                invoke BitBlt,hDC,LEFT,DOWN,EFFECTS_WIDTH,1,wDC1,0,0,SRCCOPY
+                invoke BitBlt,hDC,LEFT,DOWN+EFFECTS_HEIGHT,EFFECTS_WIDTH,1,wDC2,0,0,SRCCOPY
+                jmp _back
+            .endif    
+            mov x1,0
+        invoke    DeleteDC,wDC1
+        invoke    DeleteDC,wDC2
+    Ret
 DrawEffects endp
 
-DrawColorScroller	Proc
-	mov esi,hMatrix
-	mov x,0
-	; Commented commands would be useful only when we build a matrix on screen, instead of 2 scrolling vectors
-	;mov y,0
-	;	.repeat
-			.repeat
-				mov eax,x1
-				add eax,x
-				mov ebx,EFFECTS_WIDTH
-				xor edx,edx
-				idiv ebx
-				push edx
-				invoke SetPixel,wDC1,edx,y,dword ptr [esi]
-				mov eax,EFFECTS_HEIGHT
-			;	add eax,y
-				pop edx
-			;	add esi,EFFECTS_WIDTH*4*EFFECTS_HEIGHT-EFFECTS_WIDTH*4
-			;	sub esi,20h
-				invoke SetPixel,wDC2,edx,eax,dword ptr [esi]
-			;	add esi,20h
-			;	sub esi,EFFECTS_WIDTH*4*EFFECTS_HEIGHT-EFFECTS_WIDTH*4
-				add esi,4
-				inc x
-			.until x == EFFECTS_WIDTH
-			mov x,0
-	;		inc y
-	;	.until y == 1 ;EFFECTS_HEIGHT
-	;	mov y,0
-		add x1,5		;	Speed of wave
-	Ret
+DrawColorScroller    Proc
+    mov esi,hMatrix
+    mov x,0
+    ; Commented commands would be useful only when we build a matrix on screen, instead of 2 scrolling vectors
+    ;mov y,0
+    ;    .repeat
+            .repeat
+                mov eax,x1
+                add eax,x
+                mov ebx,EFFECTS_WIDTH
+                xor edx,edx
+                idiv ebx
+                push edx
+                invoke SetPixel,wDC1,edx,y,dword ptr [esi]
+                mov eax,EFFECTS_HEIGHT
+            ;    add eax,y
+                pop edx
+            ;    add esi,EFFECTS_WIDTH*4*EFFECTS_HEIGHT-EFFECTS_WIDTH*4
+            ;    sub esi,20h
+                invoke SetPixel,wDC2,edx,eax,dword ptr [esi]
+            ;    add esi,20h
+            ;    sub esi,EFFECTS_WIDTH*4*EFFECTS_HEIGHT-EFFECTS_WIDTH*4
+                add esi,4
+                inc x
+            .until x == EFFECTS_WIDTH
+            mov x,0
+    ;        inc y
+    ;    .until y == 1 ;EFFECTS_HEIGHT
+    ;    mov y,0
+        add x1,5        ;    Speed of wave
+    Ret
 DrawColorScroller endp
 
 CenterWindow	Proc hWnd:HWND
@@ -375,8 +380,10 @@ LOCAL sButtonStructure:XXBUTTON,hSmallButtonFont:HFONT,hBtn:HWND
 	mov sButtonStructure.push_clr,White
 	mov sButtonStructure.normal_clr,White
 	mov sButtonStructure.btn_prop, 08000000Fh
-	mov hBtn,$invoke	( GetDlgItem,hWnd,IDB_QUIT )
-	invoke	RedrawButton,hBtn,addr sButtonStructure
+    mov hBtn,$invoke(GetDlgItem,hWnd,IDB_SMALL_QUIT )
+    invoke RedrawButton,hBtn,addr sButtonStructure
+	mov hBtn,$invoke(GetDlgItem,hWnd,IDB_QUIT )
+	invoke RedrawButton,hBtn,addr sButtonStructure
 	mov sButtonStructure.push_clr,0B0B0B0h
 	mov sButtonStructure.btn_prop,08000000Bh
 	invoke	SetFocus,eax
