@@ -1,0 +1,36 @@
+.586 ;As spotlight.asm use rdtsc, CPU mode can't be .486
+.model	flat, stdcall
+option	casemap :none   ; case sensitive
+
+include		base.inc
+include		meatballs_bY_newborn.asm
+
+.code
+start:
+	invoke	GetModuleHandle, NULL
+	mov	hInstance, eax
+	invoke	DialogBoxParam, hInstance, 101, 0, ADDR DlgProc, 0
+	invoke	ExitProcess, eax
+; -----------------------------------------------------------------------
+DlgProc	proc	hWin	:DWORD,
+		uMsg	:DWORD,
+		wParam	:DWORD,
+		lParam	:DWORD
+
+	.if	uMsg == WM_COMMAND
+		.if	wParam == IDC_OK
+; -----------------------------------------------------------------------
+invoke DialogBoxParam,0,IDD_ABOUTBOX,hWin,addr AboutProc,0
+; -----------------------------------------------------------------------
+        .elseif	wParam == IDC_IDCANCEL
+			invoke EndDialog,hWin,0
+		.endif
+	.elseif	uMsg == WM_CLOSE
+		invoke	EndDialog,hWin,0
+	.endif
+
+	xor	eax,eax
+	ret
+DlgProc	endp
+
+end start
