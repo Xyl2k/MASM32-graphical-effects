@@ -248,14 +248,9 @@ LOCAL Paint:PAINTSTRUCT
 LOCAL Rekt:RECT
 LOCAL hColor:DWORD
 
-                invoke  CreateSolidBrush,0
-                mov     [hColor], eax
                 cmp     [uMsgz], 110h
                 jnz     short loc_4021A8
-                invoke  FadeInDlg,[xWnd]
                 invoke  GetDC,[xWnd]
-                invoke  CreateSolidBrush,0Fh
-                mov     [hColor], eax
                 invoke  GetTickCount
                 push    eax
                 call    Dwordshit
@@ -302,7 +297,7 @@ locWM_PAINT:
               	invoke  BitBlt,eax,0,0,156h,7Dh,m_hDC,0,0,0CC0020h
                 lea     eax, [Paint]
               	invoke  EndPaint,[xWnd],eax
-                jmp     short return0
+                jmp     return0
 ; ---------------------------------------------------------------------------
 
 loc_40223D:                           
@@ -322,10 +317,10 @@ locWM_CTLCOLORSTATIC:
 loc_402266:                             
                 cmp     [uMsgz], WM_CTLCOLORDLG
                 jnz     short loc_402278
-
-locWM_CTLCOLORDLG:
-                mov     eax, [hColor]
-                leave
+        mov eax,[wParamz]
+     	invoke SetBkColor,eax,Black
+     	invoke GetStockObject,BLACK_BRUSH
+		        leave
                 retn    10h
 ; ---------------------------------------------------------------------------
                 jmp     short return0
