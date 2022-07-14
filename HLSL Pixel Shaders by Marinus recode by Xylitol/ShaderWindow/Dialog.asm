@@ -1,24 +1,24 @@
-include                 \masm32\include\masm32rt.inc
-
 ; Original: http://masm32.com/board/index.php?topic=6904.0
 ; This version is using DialogBox instead of CreateWindow
-; The shader squad is also tied to a ressource control
+; The shader squad is tied to a ressource control
 
-.686
-;.model  flat,stdcall 
-.xmm 
-option casemap:none ; case sensitive
+.686p
+.model flat, stdcall
+.xmm
+option casemap :none
+
+include                 \masm32\include\windows.inc ; main windows include file
+include                 \masm32\include\kernel32.inc
+include                 \masm32\include\user32.inc
+include                 \masm32\include\ole32.inc
+include                 Includes\d3d9.inc
+include                 Includes\d3d9extra.Inc
 
 includelib              \masm32\lib\kernel32.lib
 includelib              \masm32\lib\user32.lib
 includelib              \masm32\lib\ole32.lib
+includelib              Libs\d3d9.lib
 includelib              Libs\d3d9extra.lib
-includelib              libs\d3d9.lib
-
-include                 Includes\d3d9.inc
-include                 Includes\d3d9extra.Inc
-
-include                 \masm32\macros\macros.asm
 
 DlgProc                 PROTO :DWORD,:DWORD,:DWORD,:DWORD
 
@@ -45,8 +45,6 @@ Screen_Quad             real4 0.0, 0.0, 0.5, 1.0, 0.0, 0.0 ; left top     ( X,Y,
 
 PixelShaderConstants    real4 0.0, 0.0, 0.0, 0.0;
 DlgName                 db "MyDialog",0
-ClassName               db "D3d9 Siekmanski",0
-AppName                 db "Siekmanski PixelShader.",0
 szBtnQuit               db "Close",0
 szCptText               db "Original shader window code by Marinus",10,13
                         db "DialogBox embedded shader version by Xylitol",10,13,10,13
