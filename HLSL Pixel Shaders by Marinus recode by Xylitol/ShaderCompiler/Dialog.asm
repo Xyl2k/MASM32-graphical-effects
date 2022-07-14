@@ -109,12 +109,6 @@ szBtnQuit               db "Close",0
 szBtnToogleText         db "Toogle text",0
 szBtnSave               db "Save shader code",0
 
-szMBoxTitle 				db "Message à caractère informatif",0
-szMBoxText					db "[GRP] will not be responsible for and do *NOT* support warez",13,10
-							db "distributions of this release. It is forbidden to include one of",13,10
-							db "our release in a warez distribution. Groups or individual will be",13,10
-							db "exposed for this !",0
-
 ; Uncomment a "PixelShaderFile" to compile and run it.
 
 ; Siekmanski's HLSL very basic tutorials:
