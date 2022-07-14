@@ -1,32 +1,32 @@
-SET FILE=ShaderCompiler
+SET FILE=Dialog
 SET PATH=C:\masm32\bin\
 
 @echo off
 	
-if not exist rsrc.rc goto delexe
-%PATH%Rc.exe /v rsrc.rc
-%PATH%Cvtres.exe /machine:ix86 rsrc.res
+if not exist Dialog.rc goto delexe
+%PATH%Rc.exe /v Dialog.rc
+%PATH%Cvtres.exe /machine:ix86 Dialog.res
 
 :delexe
 if exist %FILE%.exe del %FILE%.exe
 
-%PATH%Ml.exe /c /coff %FILE%.asm
+%PATH%Ml.exe /c /coff /Cp %FILE%.asm
 if errorlevel 1 goto errorasm
 
-if not exist rsrc.obj goto nores
+if not exist Dialog.obj goto nores
 
-%PATH%Link.exe /SUBSYSTEM:WINDOWS %FILE%.obj rsrc.obj
+%PATH%Link.exe /SUBSYSTEM:WINDOWS /VERSION:4.0 %FILE%.obj Dialog.res
 if errorlevel 1 goto errorlink
 
 if exist %FILE%.obj del %FILE%.obj
-if exist rsrc.obj del rsrc.obj
-if exist rsrc.res del rsrc.res
+if exist Dialog.obj del Dialog.obj
+if exist Dialog.res del Dialog.res
 
 dir %FILE%.*
 goto Show
 
 :nores
-%PATH%Link.exe /SUBSYSTEM:WINDOWS %FILE%.obj
+%PATH%Link.exe /SUBSYSTEM:WINDOWS /VERSION:4.0 %FILE%.obj
 if errorlevel 1 goto errorlink
 
 if exist %FILE%.obj del %FILE%.obj

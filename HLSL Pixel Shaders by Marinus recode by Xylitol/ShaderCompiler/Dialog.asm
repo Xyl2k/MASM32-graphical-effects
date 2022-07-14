@@ -24,7 +24,14 @@ includelib              \masm32\lib\msvcrt.lib
 includelib              Libs\d3d9.lib
 includelib              Libs\d3d9extra.lib
 
+DlgProc                 PROTO :DWORD,:DWORD,:DWORD,:DWORD
+
 .const
+IDD_DIALOGBOX           equ 2001
+IDB_QUIT                equ 2003
+IDB_SHADER_SQUAD        equ 2004
+IDB_TOGGLE_TEXT         equ 2005
+IDB_SAVE_SHADER         equ 2006
 
 IID_ID3DXBuffer TEXTEQU <{08ba5fb08h,05195h,040e2h,{0ach,058h,00dh,098h,09ch,03ah,001h,002h}}>
 
@@ -60,21 +67,6 @@ D3DXSHADER_OPTIMIZATION_LEVEL0            equ (1 shl 14)
 D3DXSHADER_OPTIMIZATION_LEVEL1            equ  0
 D3DXSHADER_OPTIMIZATION_LEVEL2            equ ((1 shl 14) or (1 shl 15))
 D3DXSHADER_OPTIMIZATION_LEVEL3            equ (1 shl 15)
-
-.data?
-align 4
-hInst                   dd ?
-hWnd                    dd ?
-Screen_Width            dd ?
-Screen_Height           dd ?
-
-d3dcaps                 D3DCAPS9 <?>
-d3dpp                   D3DPRESENT_PARAMETERS <?>
-
-align 16
-Timers                  MEDIATIMERS <?> ; must be 16 bytes aligned!
-
-szString_buffer         db 512 dup (?)
 
 .data
 align 4
@@ -112,8 +104,16 @@ TextPos                 real4 0.0
 TextPos2                real4 0.0
 ToggleText              dd 1
 
-ClassName               db 'D3d9 Siekmanski',0
-AppName                 db 'Siekmanski PixelShader Compiler.',0
+DlgName                 db "Siekmanski PixelShader Compiler.",0
+szBtnQuit               db "Close",0
+szBtnToogleText         db "Toogle text",0
+szBtnSave               db "Save shader code",0
+
+szMBoxTitle 				db "Message à caractère informatif",0
+szMBoxText					db "[GRP] will not be responsible for and do *NOT* support warez",13,10
+							db "distributions of this release. It is forbidden to include one of",13,10
+							db "our release in a warez distribution. Groups or individual will be",13,10
+							db "exposed for this !",0
 
 ; Uncomment a "PixelShaderFile" to compile and run it.
 
@@ -167,6 +167,22 @@ PixelShaderFile            db "PixelShaders\Eye Candy.hlsl",0
 ; Compile options -> D3DXSHADER_OPTIMIZATION_LEVEL3 for the best result. ( It takes a long time to compile ! please be patience. )
 PixelShaderCompileFlags equ D3DXSHADER_OPTIMIZATION_LEVEL0 or D3DXSHADER_PREFER_FLOW_CONTROL ; -> fast compiling.
 
+.data?
+align 4
+hInstance               HINSTANCE ?
+Hwnd                    dd ?
+Hwnd_d3d                dd ?
+
+Screen_Width            dd ?
+Screen_Height           dd ?
+
+d3dcaps                 D3DCAPS9 <?>
+d3dpp                   D3DPRESENT_PARAMETERS <?>
+
+align 16
+Timers                  MEDIATIMERS <?> ; must be 16 bytes aligned!
+
+szString_buffer         db 512 dup (?)
 
 .code
 
@@ -324,276 +340,217 @@ close_file_out:
     .if hFileOut
         invoke  CloseHandle,hFileOut
     .endif
+    
+
 
 close_spsc:
     ret
 
 SavePixelShaderCode endp
 
-
 align 4
 RenderD3d proc
     coinvoke g_pD3DDevice,IDirect3DDevice9,Clear,0,NULL,D3DCLEAR_TARGET or D3DCLEAR_ZBUFFER,BackgroundColor,FLT4(1.0),0
-
-    call    UpdateTimers
-
-    lea     eax,PixelShaderConstants
-    movss   xmm0,Timers.Timer1  ; actual time in seconds. (send this to the pixel shader to animate the scene)
-    movss   real4 ptr [eax+12],xmm0
-    coinvoke    g_pD3DDevice,IDirect3DDevice9,SetPixelShaderConstantF,0,addr PixelShaderConstants,1 ; copy constants to the GPU register c0
-
+    call UpdateTimers
+    lea eax,PixelShaderConstants
+    ;=========== actual time in seconds. (send this to the pixel shader to animate the scene) ===============
+    movss xmm0,Timers.Timer1
+    movss real4 ptr [eax+12],xmm0
+    ;=========== copy constants to the GPU register c0 ===============
+    coinvoke g_pD3DDevice,IDirect3DDevice9,SetPixelShaderConstantF,0,addr PixelShaderConstants,1
     coinvoke g_pD3DDevice,IDirect3DDevice9,BeginScene
-
-    coinvoke    g_pD3DDevice,IDirect3DDevice9,SetPixelShader,g_pPixelShader ; run Pixel Shader
-    coinvoke    g_pD3DDevice,IDirect3DDevice9,SetFVF,D3DFVF_XYZRHW or D3DFVF_TEX1 ; current vertex stream declaration
-    coinvoke    g_pD3DDevice,IDirect3DDevice9,DrawPrimitiveUP,D3DPT_TRIANGLESTRIP,2,addr Screen_Quad,6*4 ; draw the pixel shader result to the window
+    ;=========== run Pixel Shader ===============
+    coinvoke g_pD3DDevice,IDirect3DDevice9,SetPixelShader,g_pPixelShader
+    ;=========== current vertex stream declaration ===============
+    coinvoke g_pD3DDevice,IDirect3DDevice9,SetFVF,D3DFVF_XYZRHW or D3DFVF_TEX1
+    ;=========== draw the pixel shader result to the window ===============
+    coinvoke g_pD3DDevice,IDirect3DDevice9,DrawPrimitiveUP,D3DPT_TRIANGLESTRIP,2,addr Screen_Quad,6*4
 
     .if ToggleText
-        coinvoke    g_pD3DDevice,IDirect3DDevice9,SetPixelShader,NULL
+        coinvoke g_pD3DDevice,IDirect3DDevice9,SetPixelShader,NULL
+        invoke D3DStartTextMode,g_pD3DDevice
+        invoke wsprintf,addr szString_buffer,TEXT_("Screen resolution: %d X %d"),d3dpp.BackBufferWidth,d3dpp.BackBufferHeight
+        invoke D3DDrawText,g_pD3DDevice,FLT4(0.0),FLT4(0.0),FLT4(16.0),D3DCOLOR_ARGB(255,255,127,0),addr szString_buffer
+        invoke wsprintf,addr szString_buffer,TEXT_("GPU code size: %d bytes"),dwShaderBufferSize
+        invoke D3DDrawText,g_pD3DDevice,FLT4(0.0),FLT4(20.0),FLT4(16.0),D3DCOLOR_ARGB(255,255,127,0),addr szString_buffer
+        invoke wsprintf,addr szString_buffer,TEXT_("Compiler from: %s"),addr D3DCompiler_Lib
+        invoke D3DDrawText,g_pD3DDevice,FLT4(0.0),FLT4(40.0),FLT4(16.0),D3DCOLOR_ARGB(255,255,127,0),addr szString_buffer
+        invoke crt_sprintf,addr szString_buffer,TEXT_("FPS: %0.03f  Timer: %0.03f"),Timers.FramesPerSecond,Timers.TimeElapsed
+        invoke D3DDrawText,g_pD3DDevice,FLT4(0.0),TextPos2,FLT4(16.0),D3DCOLOR_ARGB(255,0,227,0),addr szString_buffer
 
-        invoke  D3DStartTextMode,g_pD3DDevice
-
-        invoke  wsprintf,addr szString_buffer,TEXT_("Screen resolution: %d X %d"),d3dpp.BackBufferWidth,d3dpp.BackBufferHeight
-        invoke  D3DDrawText,g_pD3DDevice,FLT4(0.0),FLT4(0.0),FLT4(16.0),D3DCOLOR_ARGB(255,255,127,0),addr szString_buffer
-
-        invoke  crt_sprintf,addr szString_buffer,TEXT_("FPS: %0.03f  Timer: %0.03f"),Timers.FramesPerSecond,Timers.TimeElapsed
-        invoke  D3DDrawText,g_pD3DDevice,FLT4(0.0),FLT4(20.0),FLT4(16.0),D3DCOLOR_ARGB(255,255,127,0),addr szString_buffer
-
-        invoke  wsprintf,addr szString_buffer,TEXT_("GPU code size: %d bytes"),dwShaderBufferSize
-        invoke  D3DDrawText,g_pD3DDevice,FLT4(0.0),FLT4(40.0),FLT4(16.0),D3DCOLOR_ARGB(255,255,127,0),addr szString_buffer
-
-        invoke  wsprintf,addr szString_buffer,TEXT_("Compiler from: %s"),addr D3DCompiler_Lib
-        invoke  D3DDrawText,g_pD3DDevice,FLT4(0.0),FLT4(60.0),FLT4(16.0),D3DCOLOR_ARGB(255,255,127,0),addr szString_buffer
-
-        invoke  D3DDrawText,g_pD3DDevice,FLT4(0.0),TextPos,FLT4(16.0),D3DCOLOR_ARGB(255,0,227,0),TEXT_("Press F1 = Toggle Text.")
-        invoke  D3DDrawText,g_pD3DDevice,FLT4(0.0),TextPos2,FLT4(16.0),D3DCOLOR_ARGB(255,0,227,0),TEXT_("Press F2 = Save Shader Code.")
-
-        invoke  D3DEndTextMode,g_pD3DDevice
     .endif
-    
+
     coinvoke g_pD3DDevice,IDirect3DDevice9,EndScene
     coinvoke g_pD3DDevice,IDirect3DDevice9,Present,NULL,NULL,NULL,NULL
     ret
 RenderD3d endp
 
-
 align 4
-WndProc proc hwnd:DWORD,wMsg:DWORD,wParam:DWORD,lParam:DWORD
-
-    .if wMsg == WM_CREATE
-        return  0
+start:
+    invoke GetModuleHandle, NULL
+    mov hInstance,eax
+    invoke DialogBoxParam,hInstance,IDD_DIALOGBOX,Hwnd,addr DlgProc,NULL
+    invoke ExitProcess,eax
     
-    .elseif wMsg == WM_CLOSE
-        invoke  PostQuitMessage,WM_QUIT
-        return  0
+DlgProc Proc hwndX:HWND, uMsg:UINT, wParam:WPARAM, lParam:LPARAM    
+LOCAL msg:MSG
+    .if uMsg == WM_INITDIALOG
+            invoke LoadIcon,hInstance,200
+            invoke SendMessage, hwndX, WM_SETICON, 1, eax
+            invoke SetWindowText,hwndX,addr DlgName
+            invoke SetDlgItemText,hwndX,IDB_QUIT,addr szBtnQuit
+            invoke SetDlgItemText,hwndX,IDB_TOGGLE_TEXT,addr szBtnToogleText
+            invoke SetDlgItemText,hwndX,IDB_SAVE_SHADER,addr szBtnSave
+            invoke GetDlgItem,hwndX,IDB_SHADER_SQUAD
+            cmp eax,0
+            je close_program
+            mov Hwnd_d3d,eax
+            ;======== set direct3d9 version ========
+            invoke Direct3DCreate9,D3D_SDK_VERSION
+            test eax,eax
+            jz close_program
+            mov g_pD3D,eax
 
-    .elseif wMsg == WM_DESTROY
-        invoke  PostQuitMessage,NULL
-        return  0
+            coinvoke g_pD3D,IDirect3D9,GetDeviceCaps,D3DADAPTER_DEFAULT,D3DDEVTYPE_HAL,addr d3dcaps
+            cmp eax,D3D_OK
+            jne close_program
 
-    .elseif wMsg == WM_PAINT
-        invoke  ValidateRect,hwnd,NULL
-        return  0
+            ;======== check if video card supports PixelShaderVersion 3.0 =======
+            mov eax,d3dcaps.PixelShaderVersion
+            cmp eax,D3DPS_VERSION(3,0)
+            jb close_program
 
-    .elseif wMsg == WM_KEYUP
-        .if wParam == VK_ESCAPE
-            invoke      PostQuitMessage,WM_QUIT
-        .elseif wParam == VK_F1
-            xor ToggleText,1
-        .elseif wParam == VK_F2
-            call SavePixelShaderCode
-        .endif
-        return  0
-    .else
-        invoke  DefWindowProc,hwnd,wMsg,wParam,lParam
+            ;======== initialize the default graphics card ========
+            invoke RtlZeroMemory,offset d3dpp,sizeof d3dpp
+            mov d3dpp.SwapEffect,D3DSWAPEFFECT_DISCARD
+            mov d3dpp.Windowed,TRUE
+
+            ;======== create a Depth Buffer =======================
+            mov d3dpp.EnableAutoDepthStencil,TRUE
+            mov d3dpp.AutoDepthStencilFormat,D3DFMT_D24S8 ;D3DFMT_D16
+
+            ;======== set a PresentationInterval type =============
+            mov d3dpp.PresentationInterval,D3DPRESENT_INTERVAL_ONE
+
+            ;======= Create a Device ===============================
+            coinvoke g_pD3D,IDirect3D9,CreateDevice,D3DADAPTER_DEFAULT,D3DDEVTYPE_HAL,Hwnd_d3d,D3DCREATE_HARDWARE_VERTEXPROCESSING,offset d3dpp,offset g_pD3DDevice
+            cmp eax,D3D_OK
+            jne close_program
+
+            ;=========== create the screen_quad ===============
+            mov eax,962
+            cvtsi2ss xmm0,eax
+            mov eax,531
+            cvtsi2ss xmm1,eax
+
+            ;=========== screen bottom text positions ===============
+            movss xmm2,xmm1
+            subss xmm2,FLT4(18.0)
+            movss TextPos2,xmm2
+            subss xmm2,FLT4(20.0)
+            movss TextPos,xmm2
+
+            lea eax,Screen_Quad
+            movss real4 ptr[eax+24],xmm0
+            movss real4 ptr[eax+52],xmm1
+            movss real4 ptr[eax+72],xmm0
+            movss real4 ptr[eax+76],xmm1
+
+            ;=========== create a shader constant pool for the Pixel Shader viewport ===============
+            lea eax,PixelShaderConstants
+            movss real4 ptr[eax],xmm0
+            movss real4 ptr[eax+4],xmm1
+            movss xmm1,FLT4(1.0)
+            movss real4 ptr[eax+8],xmm1
+
+            ;=========== Try to find a shader compiler library. ===============
+            call FindCompilerLib
+            cmp eax,D3D_OK
+            jne close_program
+
+            ;=========== OK, we found one, let's compile the pixel shader from file. ===============
+            invoke D3DCompileFromFile,offset PixelShaderFile,0,0,TEXT_("ps_main"),TEXT_("ps_3_0"),PixelShaderCompileFlags,addr g_pShaderTemp,addr g_pShaderMessage,0
+            cmp eax,D3D_OK
+            je GetShaderCode
+
+            ;=========== Show compile error messages. ===============
+            coinvoke g_pShaderMessage,ID3DXBuffer,GetBufferPointer
+            invoke MessageBox,hwndX,eax,TEXT_("Pixel shader compiler messages."),MB_ICONERROR
+            jmp close_objects
+
+            ;=========== Shader compiled without errors. Get a pointer to the shader code. ===============
+            GetShaderCode:
+            coinvoke g_pShaderTemp,ID3DXBuffer,GetBufferPointer
+            mov pShaderBufferPtr,eax
+            coinvoke g_pShaderTemp,ID3DXBuffer,GetBufferSize
+            mov dwShaderBufferSize,eax
+
+            ;=========== Create the pixel shader on the GPU. ===============
+            coinvoke g_pD3DDevice,IDirect3DDevice9,CreatePixelShader,pShaderBufferPtr,addr g_pPixelShader
+            cmp eax,D3D_OK
+            jne close_program
+
+            ;=========== initialize the text routine ( to put some info to the screen ) ===============
+            invoke  InitD3DDrawText,g_pD3DDevice
+            test eax,eax
+            js close_program
+
+            ;===== initialize the timers ======
+            invoke  InitTimers,addr Timers,ENABLE_PRINT_FPS
+
+    .elseif uMsg == WM_COMMAND
+            mov eax,wParam
+            mov edx,eax
+            shr edx,16
+            and eax,0FFFFh
+            .if wParam == IDB_QUIT
+                   ;invoke UpdateWindow,hwndX
+                   invoke SendMessage,hwndX,WM_CLOSE,0,0
+            .elseif wParam == IDB_TOGGLE_TEXT
+                   xor ToggleText,1
+            .elseif wParam == IDB_SAVE_SHADER
+                   call SavePixelShaderCode
+           .endif
+    .elseif uMsg == WM_CLOSE
+            SAFE_RELEASE g_pShaderMessage
+            SAFE_RELEASE g_pShaderTemp
+            SAFE_RELEASE g_pPixelShader
+            call ReleaseD3DDrawText
+            SAFE_RELEASE g_pD3DDevice
+            SAFE_RELEASE g_pD3D
+            .if D3DCompiler_Library
+                   invoke FreeLibrary,D3DCompiler_Library
+            .endif   
+            invoke EndDialog, hwndX,NULL
+    .elseif uMsg == WM_PAINT
+            invoke RenderD3d
+    .else            
+        mov eax,FALSE
         ret
     .endif
-WndProc endp
-
-
-align 4
-WinMain proc hinst:DWORD,hPrevInst:DWORD,CmdLine:DWORD,CmdShow:DWORD
-LOCAL wc:WNDCLASSEX
-LOCAL msg:MSG
-LOCAL WindowRect:RECT
-
-    invoke  RtlZeroMemory,addr wc,sizeof wc
-    mov     wc.cbSize,sizeof WNDCLASSEX
-    mov     wc.style, CS_HREDRAW or CS_VREDRAW or CS_OWNDC
-    mov     wc.lpfnWndProc,offset WndProc
-    m2m     wc.hInstance,hInst
-    mov     wc.lpszClassName,offset ClassName
-    invoke  LoadCursor,NULL,IDC_ARROW
-    mov     wc.hCursor,eax
-    invoke  RegisterClassEx,addr wc
-
-    invoke  GetSystemMetrics,SM_CXSCREEN
-    shr     eax,1
-    mov     Screen_Width,eax    ; Desktop size / 2
-    invoke  GetSystemMetrics,SM_CYSCREEN
-    shr     eax,1
-    mov     Screen_Height,eax   ; Desktop size / 2
-
-    ; make corrections to the window, so the actual screen we render to, has the right dimensions
-    invoke  SetRect,addr WindowRect,0,0,Screen_Width,Screen_Height
-    invoke  AdjustWindowRectEx,addr WindowRect,WS_OVERLAPPEDWINDOW,FALSE,WS_EX_CLIENTEDGE
-
-    ; place it at the center of the monitor
-    mov     eax,WindowRect.left
-    sub     WindowRect.right, eax
-    mov     eax,WindowRect.top
-    sub     WindowRect.bottom, eax
-
-    invoke  GetSystemMetrics,SM_CXSCREEN
-    sub     eax,WindowRect.right
-    shr     eax,1
-    mov     WindowRect.left,eax
-    invoke  GetSystemMetrics,SM_CYSCREEN
-    sub     eax,WindowRect.bottom
-    shr     eax,1
-    mov     WindowRect.top,eax
-
-    invoke  GetDesktopWindow
-    invoke  CreateWindowEx,WS_EX_CLIENTEDGE,offset ClassName,offset AppName,WS_OVERLAPPEDWINDOW, \
-                           WindowRect.left,WindowRect.top,WindowRect.right,WindowRect.bottom,eax,NULL,hinst,NULL
-    test    eax,eax
-    jz      close_program
-    mov     hWnd,eax
-
-    ; set direct3d9 version
-    invoke  Direct3DCreate9,D3D_SDK_VERSION
-    test    eax,eax
-    jz      close_program
-    mov     g_pD3D,eax
-
-    coinvoke g_pD3D,IDirect3D9,GetDeviceCaps,D3DADAPTER_DEFAULT,D3DDEVTYPE_HAL,addr d3dcaps
-    cmp     eax,D3D_OK
-    jne     close_program
-
-    ; check if video card supports PixelShaderVersion 3.0
-    mov     eax,d3dcaps.PixelShaderVersion
-    cmp     eax,D3DPS_VERSION(3,0)
-    jb      close_program
-
-    ; initialize the default graphics card
-    invoke  RtlZeroMemory,offset d3dpp,sizeof d3dpp
-    mov     d3dpp.SwapEffect,D3DSWAPEFFECT_DISCARD
-    mov     d3dpp.Windowed,TRUE
-    ; create a Depth Buffer 
-    mov     d3dpp.EnableAutoDepthStencil,TRUE
-    mov     d3dpp.AutoDepthStencilFormat,D3DFMT_D24S8 ;D3DFMT_D16
-    ; set a PresentationInterval type
-    mov     d3dpp.PresentationInterval,D3DPRESENT_INTERVAL_IMMEDIATE ;D3DPRESENT_INTERVAL_DEFAULT ;D3DPRESENT_INTERVAL_ONE
-
-    coinvoke g_pD3D,IDirect3D9,CreateDevice,D3DADAPTER_DEFAULT,D3DDEVTYPE_HAL,hWnd,D3DCREATE_HARDWARE_VERTEXPROCESSING,offset d3dpp,offset g_pD3DDevice
-    cmp     eax,D3D_OK
-    jne     close_program
-
-    ; create the screen_quad
-    mov     eax,Screen_Width
-    cvtsi2ss    xmm0,eax
-    mov     eax,Screen_Height
-    cvtsi2ss    xmm1,eax
-
-    movss   xmm2,xmm1           ; screen bottom text positions
-    subss   xmm2,FLT4(18.0)
-    movss   TextPos2,xmm2
-    subss   xmm2,FLT4(20.0)
-    movss   TextPos,xmm2
-
-    lea     eax,Screen_Quad
-    movss   real4 ptr[eax+24],xmm0
-    movss   real4 ptr[eax+52],xmm1
-    movss   real4 ptr[eax+72],xmm0
-    movss   real4 ptr[eax+76],xmm1
-
-    ; create a shader constant pool for the Pixel Shader viewport
-    lea     eax,PixelShaderConstants
-    movss   real4 ptr[eax],xmm0
-    movss   real4 ptr[eax+4],xmm1
-    movss   xmm1,FLT4(1.0)
-    movss   real4 ptr[eax+8],xmm1
     
-    ; Try to find a shader compiler library.
-    call    FindCompilerLib
-    cmp     eax,D3D_OK
-    jne     close_program
+    mov eax,TRUE
+    ret
 
-    ; OK, we found one, let's compile the pixel shader from file.
-    invoke  D3DCompileFromFile,offset PixelShaderFile,0,0,TEXT_("ps_main"),TEXT_("ps_3_0"),PixelShaderCompileFlags,addr g_pShaderTemp,addr g_pShaderMessage,0
-    cmp     eax,D3D_OK
-    je      GetShaderCode
-    ; Show compile error messages.
-    coinvoke g_pShaderMessage,ID3DXBuffer,GetBufferPointer
-    invoke  MessageBox,hWnd,eax,TEXT_("Pixel shader compiler messages."),MB_ICONERROR
-    jmp     close_objects
-
-    ; Shader compiled without errors. Get a pointer to the shader code.
-GetShaderCode:
-    coinvoke g_pShaderTemp,ID3DXBuffer,GetBufferPointer
-    mov     pShaderBufferPtr,eax
-    coinvoke g_pShaderTemp,ID3DXBuffer,GetBufferSize
-    mov     dwShaderBufferSize,eax
-
-    ; Create the pixel shader on the GPU.
-    coinvoke g_pD3DDevice,IDirect3DDevice9,CreatePixelShader,pShaderBufferPtr,addr g_pPixelShader
-    cmp     eax,D3D_OK
-    jne     close_program
-
-    invoke  InitD3DDrawText,g_pD3DDevice    ; initialize the text routine ( to put some info to the screen )
-    test    eax,eax
-    js      close_program
-
-    ; initialize the timers
-    invoke  InitTimers,addr Timers,ENABLE_PRINT_FPS
-    
-    ; now show the window, start the message pump and let's rock!
-    invoke   ShowWindow,hWnd,SW_SHOWNORMAL
-    invoke   UpdateWindow,hWnd
-    
-    .while msg.message != WM_QUIT
-        invoke PeekMessage,addr msg,NULL,0,0, PM_REMOVE
-        .if (eax)
-            invoke  TranslateMessage,addr msg
-            invoke  DispatchMessage,addr msg
-        .endif
-        invoke RenderD3d    ; do the rendering stuff
-    .endw
-    jmp     close_objects
-
-
+    ;----------------------
 close_program:
-    invoke  MessageBox,hWnd,TEXT_("Sorry, this program will not run on your computer."),TEXT_("ERROR !"),MB_ICONERROR
+    invoke  MessageBox,hwndX,TEXT_("Sorry, this program will not run on your computer."),TEXT_("ERROR !"),MB_ICONERROR
 
-close_objects:                  ; Clean up everything we created
+close_objects: ; Clean up everything we created
 
     SAFE_RELEASE g_pShaderMessage
     SAFE_RELEASE g_pShaderTemp
     SAFE_RELEASE g_pPixelShader
 
-    call    ReleaseD3DDrawText
+    call ReleaseD3DDrawText
 
     SAFE_RELEASE g_pD3DDevice
     SAFE_RELEASE g_pD3D
 
     .if D3DCompiler_Library
-        invoke  FreeLibrary,D3DCompiler_Library
-    .endif
+        invoke FreeLibrary,D3DCompiler_Library
+    .endif        
+        ret
 
-    invoke  UnregisterClass,offset ClassName,wc.hInstance
-    mov     eax,msg.wParam
-    ret
-    
-WinMain endp
-
-start:
-    invoke  GetModuleHandle,NULL
-    mov     hInst,eax
-    invoke  CoInitialize,NULL
-    invoke  WinMain,hInst,NULL,NULL,SW_SHOWDEFAULT
-    push    eax
-    invoke  CoUninitialize         
-    pop     eax
-    invoke  ExitProcess,eax
-
+DlgProc endp
 end start

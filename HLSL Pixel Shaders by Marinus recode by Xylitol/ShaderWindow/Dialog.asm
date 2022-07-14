@@ -23,6 +23,7 @@ includelib              Libs\d3d9extra.lib
 DlgProc                 PROTO :DWORD,:DWORD,:DWORD,:DWORD
 
 .const
+IDD_DIALOG              equ 2001
 IDC_TEXT                equ 2002
 IDB_QUIT                equ 2003
 IDB_SHADER_SQUAD        equ 2004
@@ -44,7 +45,7 @@ Screen_Quad             real4 0.0, 0.0, 0.5, 1.0, 0.0, 0.0 ; left top     ( X,Y,
                         real4 0.0, 0.0, 0.5, 1.0, 1.0, 1.0 ; right bottom ( X,Y,Z,W,U,V )  
 
 PixelShaderConstants    real4 0.0, 0.0, 0.0, 0.0;
-DlgName                 db "MyDialog",0
+DlgName                 db "Siekmanski PixelShader.",0
 szBtnQuit               db "Close",0
 szCptText               db "Original shader window code by Marinus",10,13
                         db "DialogBox embedded shader version by Xylitol",10,13,10,13
@@ -125,9 +126,9 @@ RenderD3d endp
 
 ;********************** START ******************************
 start:
-    invoke GetModuleHandle, NULL
+    invoke GetModuleHandle,NULL
     mov hInstance,eax
-    invoke DialogBoxParam, hInstance, ADDR DlgName,Hwnd,addr DlgProc,NULL
+    invoke DialogBoxParam,hInstance,IDD_DIALOG,Hwnd,addr DlgProc,NULL
     invoke ExitProcess,eax
 
 DlgProc Proc hwndX:HWND, uMsg:UINT, wParam:WPARAM, lParam:LPARAM    
