@@ -2,31 +2,27 @@
 ; To compile a shader you need one of the D3DX9 wrapper libs (D3DX9_XX.dll)
 ; If you don't have one you can download it here:
 ; DirectX End-User Runtimes (June 2010) https://www.microsoft.com/en-us/download/details.aspx?id=8109
-
-
 ; http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/
 
-include \masm32\include\masm32rt.inc
+.686p
+.model flat, stdcall
+.xmm
+option casemap :none
 
-.686
-;.model  flat,stdcall 
-.xmm 
-option casemap:none ; case sensitive
+include                 \masm32\include\windows.inc ; main windows include file
+include                 \masm32\include\kernel32.inc
+include                 \masm32\include\user32.inc
+include                 \masm32\include\ole32.inc
+include                 \masm32\include\msvcrt.inc
+include                 Includes\d3d9.inc
+include                 Includes\d3d9extra.Inc
 
-includelib     \masm32\lib\msvcrt.lib
-
-include        \masm32\include\msvcrt.inc 
-
-    includelib \masm32\lib\kernel32.lib
-    includelib \masm32\lib\user32.lib
-    includelib \masm32\lib\ole32.lib
-    include    \masm32\include\msvcrt.inc
-    includelib \masm32\lib\msvcrt.lib
-
-    include    includes\d3d9.inc
-    includelib libs\d3d9.lib
-    include    includes\d3d9extra.Inc
-    includelib libs\d3d9extra.lib    
+includelib              \masm32\lib\kernel32.lib
+includelib              \masm32\lib\user32.lib
+includelib              \masm32\lib\ole32.lib
+includelib              \masm32\lib\msvcrt.lib
+includelib              Libs\d3d9.lib
+includelib              Libs\d3d9extra.lib
 
 .const
 
@@ -360,7 +356,7 @@ RenderD3d proc
         invoke  wsprintf,addr szString_buffer,TEXT_("Screen resolution: %d X %d"),d3dpp.BackBufferWidth,d3dpp.BackBufferHeight
         invoke  D3DDrawText,g_pD3DDevice,FLT4(0.0),FLT4(0.0),FLT4(16.0),D3DCOLOR_ARGB(255,255,127,0),addr szString_buffer
 
-        invoke  sprintf,addr szString_buffer,TEXT_("FPS: %0.03f  Timer: %0.03f"),Timers.FramesPerSecond,Timers.TimeElapsed
+        invoke  crt_sprintf,addr szString_buffer,TEXT_("FPS: %0.03f  Timer: %0.03f"),Timers.FramesPerSecond,Timers.TimeElapsed
         invoke  D3DDrawText,g_pD3DDevice,FLT4(0.0),FLT4(20.0),FLT4(16.0),D3DCOLOR_ARGB(255,255,127,0),addr szString_buffer
 
         invoke  wsprintf,addr szString_buffer,TEXT_("GPU code size: %d bytes"),dwShaderBufferSize
