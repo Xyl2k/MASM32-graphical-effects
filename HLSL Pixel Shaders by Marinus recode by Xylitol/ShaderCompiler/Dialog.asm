@@ -28,6 +28,7 @@ DlgProc                 PROTO :DWORD,:DWORD,:DWORD,:DWORD
 
 .const
 IDD_DIALOGBOX           equ 2001
+IDC_STATUT              equ 2002
 IDB_QUIT                equ 2003
 IDB_SHADER_SQUAD        equ 2004
 IDB_TOGGLE_TEXT         equ 2005
@@ -108,6 +109,8 @@ DlgName                 db "Siekmanski PixelShader Compiler.",0
 szBtnQuit               db "Close",0
 szBtnToogleText         db "Toogle text",0
 szBtnSave               db "Save shader code",0
+szCptStatutLoaded       db "Loaded: ",0
+szCptStatutSaved        db "Saved !",0
 
 ; Uncomment a "PixelShaderFile" to compile and run it.
 
@@ -177,6 +180,7 @@ align 16
 Timers                  MEDIATIMERS <?> ; must be 16 bytes aligned!
 
 szString_buffer         db 512 dup (?)
+szCptStatut             db 50h dup (?)
 
 .code
 
@@ -243,7 +247,6 @@ next_char:
     dec     eax
     jnz     RemoveExtension
 string_done:
-
     invoke  CreateFile,esi,GENERIC_WRITE,NULL,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL
     inc     eax
     jz      close_spsc
@@ -491,7 +494,11 @@ LOCAL msg:MSG
 
             ;===== initialize the timers ======
             invoke  InitTimers,addr Timers,ENABLE_PRINT_FPS
-
+            
+            invoke lstrcat,addr szCptStatut,addr szCptStatutLoaded
+            invoke lstrcat,addr szCptStatut,addr PixelShaderFile
+            invoke SetDlgItemText,hwndX,IDC_STATUT,addr szCptStatut
+            invoke RtlZeroMemory,addr szCptStatut,sizeof szCptStatut
     .elseif uMsg == WM_COMMAND
             mov eax,wParam
             mov edx,eax
@@ -504,6 +511,7 @@ LOCAL msg:MSG
                    xor ToggleText,1
             .elseif wParam == IDB_SAVE_SHADER
                    call SavePixelShaderCode
+                   invoke SetDlgItemText,hwndX,IDC_STATUT,addr szCptStatutSaved
            .endif
     .elseif uMsg == WM_CLOSE
             SAFE_RELEASE g_pShaderMessage
