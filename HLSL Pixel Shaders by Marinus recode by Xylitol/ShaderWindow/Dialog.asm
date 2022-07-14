@@ -210,6 +210,9 @@ LOCAL msg:MSG
                    invoke SendMessage,hwndX,WM_CLOSE,0,0
             .endif
     .elseif uMsg == WM_CLOSE
+            SAFE_RELEASE g_pPixelShader
+            SAFE_RELEASE g_pD3DDevice
+            SAFE_RELEASE g_pD3D
             invoke EndDialog, hwndX,NULL    
     .elseif uMsg == WM_PAINT
             invoke RenderD3d
