@@ -19,6 +19,7 @@ include                 \masm32\include\kernel32.inc
 include                 \masm32\include\user32.inc
 include                 \masm32\include\ole32.inc
 include                 \masm32\include\msvcrt.inc
+include                 \masm32\include\comdlg32.inc
 include                 Includes\d3d9.inc
 include                 Includes\d3d9extra.Inc
 
@@ -26,8 +27,10 @@ includelib              \masm32\lib\kernel32.lib
 includelib              \masm32\lib\user32.lib
 includelib              \masm32\lib\ole32.lib
 includelib              \masm32\lib\msvcrt.lib
+includelib              \masm32\lib\comdlg32.lib
 includelib              Libs\d3d9.lib
 includelib              Libs\d3d9extra.lib
+
 
 DlgProc                 PROTO :DWORD,:DWORD,:DWORD,:DWORD
 
@@ -40,6 +43,8 @@ IDB_TOGGLE_TEXT         equ 2005
 IDB_SAVE_SHADER         equ 2006
 IDB_RECOMPILE           equ 2007
 CBB_COMPILEFLAG         equ 2008
+IDB_OPENHLSL            equ 2009
+MAXSIZE                 equ 261
 
 IID_ID3DXBuffer TEXTEQU <{08ba5fb08h,05195h,040e2h,{0ach,058h,00dh,098h,09ch,03ah,001h,002h}}>
 
@@ -117,6 +122,7 @@ szBtnQuit               db "Close",0
 szBtnToogleText         db "Toogle text",0
 szBtnSave               db "Save shader code",0
 szBtnRecompile          db "Recompile",0
+szBtnOpen               db "Open",0
 szCptStatutRecomp       db "Recompiling... It takes a long time to compile ! please be patience.",0
 szCptStatutLoaded       db "Loaded: ",0
 szCptStatutSaved        db "Saved !",0
@@ -124,6 +130,15 @@ szCompileFlag0          db "D3DXSHADER_OPTIMIZATION_LEVEL0",0
 szCompileFlag1          db "D3DXSHADER_OPTIMIZATION_LEVEL1",0
 szCompileFlag2          db "D3DXSHADER_OPTIMIZATION_LEVEL2",0
 szCompileFlag3          db "D3DXSHADER_OPTIMIZATION_LEVEL3",0
+szDefaultPixelShader    db "PixelShaders\Eye Candy.hlsl",0
+
+; Open file dialog stuff
+szTargetName db "*.hlsl",0
+szOpenTitle  db "Select the .hlsl shader file you want to import to the compiler.",0
+FiltFormat   db "%s%c%s%c%c",0
+FiltString   db MAXSIZE dup(0)
+FileName     db MAXSIZE dup(0)
+ofn          OPENFILENAME <>
 
 ; Uncomment a "PixelShaderFile" to compile and run it.
 
@@ -133,7 +148,7 @@ szCompileFlag3          db "D3DXSHADER_OPTIMIZATION_LEVEL3",0
 ;PixelShaderFile            db "PixelShaders\basic1.hlsl",0
 ;PixelShaderFile            db "PixelShaders\basic2.hlsl",0
 ;PixelShaderFile            db "PixelShaders\basic3.hlsl",0
-PixelShaderFile            db "PixelShaders\Eye Candy.hlsl",0
+PixelShaderFile            db "PixelShaders\Eye Candy.hlsl", 100 DUP(0)
 
 ; Some shaders draw by the MASM32 community board:
 
@@ -353,8 +368,6 @@ close_file_out:
     .if hFileOut
         invoke  CloseHandle,hFileOut
     .endif
-    
-
 
 close_spsc:
     ret
@@ -415,11 +428,14 @@ LOCAL msg:MSG
             invoke SetDlgItemText,hwndX,IDB_TOGGLE_TEXT,addr szBtnToogleText
             invoke SetDlgItemText,hwndX,IDB_SAVE_SHADER,addr szBtnSave
             invoke SetDlgItemText,hwndX,IDB_RECOMPILE,addr szBtnRecompile
+            invoke SetDlgItemText,hwndX,IDB_OPENHLSL,addr szBtnOpen
             invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_ADDSTRING,0,addr szCompileFlag0
             invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_ADDSTRING,0,addr szCompileFlag1
             invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_ADDSTRING,0,addr szCompileFlag2
             invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_ADDSTRING,0,addr szCompileFlag3
             invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_SETCURSEL,0,0
+            ; Setup the filter string for the open file dialog
+            invoke wsprintf,ADDR FiltString,ADDR FiltFormat,ADDR szTargetName,0,ADDR szTargetName,0,0
             invoke GetDlgItem,hwndX,IDB_SHADER_SQUAD
             cmp eax,0
             je close_program
@@ -526,12 +542,10 @@ LOCAL msg:MSG
 
             ;===== initialize the timers ======
             invoke  InitTimers,addr Timers,ENABLE_PRINT_FPS
-            
+            invoke RtlZeroMemory,addr szCptStatut,sizeof szCptStatut
             invoke lstrcat,addr szCptStatut,addr szCptStatutLoaded
             invoke lstrcat,addr szCptStatut,addr PixelShaderFile
             invoke SetDlgItemText,hwndX,IDC_STATUT,addr szCptStatut
-            invoke RtlZeroMemory,addr szCptStatut,sizeof szCptStatut
-            
             invoke UpdateWindow,hwndX
     .elseif uMsg == WM_COMMAND
        ;    mov eax,wParam
@@ -547,7 +561,6 @@ LOCAL msg:MSG
                   mov Selected_config,eax
               .endif
             .elseif wParam == IDB_QUIT
-                   ;invoke UpdateWindow,hwndX
                    invoke SendMessage,hwndX,WM_CLOSE,0,0
             .elseif wParam == IDB_TOGGLE_TEXT
                    xor ToggleText,1
@@ -557,7 +570,36 @@ LOCAL msg:MSG
             .elseif wParam == IDB_SAVE_SHADER
                    call SavePixelShaderCode
                    invoke SetDlgItemText,hwndX,IDC_STATUT,addr szCptStatutSaved
-           .endif
+            .elseif wParam == IDB_OPENHLSL
+           ; File has not yet been selected
+                    mov ofn.lStructSize,SIZEOF ofn 
+                    mov eax,hwndX
+                    mov ofn.hwndOwner,eax
+                    mov ofn.lpstrFilter, OFFSET FiltString
+                    mov ofn.lpstrFile, OFFSET FileName
+                    mov ofn.nMaxFile,MAXSIZE-1
+                    mov ofn.Flags, OFN_FILEMUSTEXIST or OFN_NONETWORKBUTTON or \ 
+                        OFN_PATHMUSTEXIST or OFN_LONGNAMES or \ 
+                        OFN_EXPLORER or OFN_HIDEREADONLY
+                    mov ofn.lpstrTitle, OFFSET szOpenTitle
+                    invoke GetOpenFileName, ADDR ofn
+                 	.if dword ptr [FileName] == 0
+                 	   invoke RtlZeroMemory,addr PixelShaderFile,sizeof PixelShaderFile
+                 	   invoke RtlZeroMemory,addr szCptStatut,sizeof szCptStatut
+                       invoke lstrcat,addr szCptStatut,addr szCptStatutLoaded
+                       invoke lstrcat,addr szCptStatut,addr szDefaultPixelShader
+                 	   invoke lstrcat,addr PixelShaderFile,addr szDefaultPixelShader
+                 	   jmp bye
+                    .endif	
+                 	invoke RtlZeroMemory,addr PixelShaderFile,sizeof PixelShaderFile
+                 	invoke RtlZeroMemory,addr szCptStatut,sizeof szCptStatut
+                    invoke lstrcat,addr szCptStatut,addr szCptStatutLoaded
+                    invoke lstrcat,addr szCptStatut,addr FileName
+                    invoke SetDlgItemText,hwndX,IDC_STATUT,addr szCptStatut
+                    invoke RtlZeroMemory,addr PixelShaderFile,sizeof PixelShaderFile
+                    invoke lstrcat,addr PixelShaderFile,addr FileName
+                    bye:
+            .endif
     .elseif uMsg == WM_CLOSE
             SAFE_RELEASE g_pShaderMessage
             SAFE_RELEASE g_pShaderTemp
