@@ -4,6 +4,11 @@
 ; DirectX End-User Runtimes (June 2010) https://www.microsoft.com/en-us/download/details.aspx?id=8109
 ; http://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/
 
+; Original: http://masm32.com/board/index.php?topic=6904.0
+; This version is using DialogBox instead of CreateWindow
+; The shader squad is tied to a ressource control
+; Added a feature to live-recompile.
+
 .686p
 .model flat, stdcall
 .xmm
@@ -33,6 +38,8 @@ IDB_QUIT                equ 2003
 IDB_SHADER_SQUAD        equ 2004
 IDB_TOGGLE_TEXT         equ 2005
 IDB_SAVE_SHADER         equ 2006
+IDB_RECOMPILE           equ 2007
+CBB_COMPILEFLAG         equ 2008
 
 IID_ID3DXBuffer TEXTEQU <{08ba5fb08h,05195h,040e2h,{0ach,058h,00dh,098h,09ch,03ah,001h,002h}}>
 
@@ -80,7 +87,7 @@ BackgroundColor         dd  D3DCOLOR_XRGB(0,0,0)
 
 pShaderBufferPtr        dd NULL
 dwShaderBufferSize      dd NULL
-
+Selected_config         dd 00h
 D3DCompiler_Library     dd NULL
 D3DCompileFunc          dd NULL
 D3DCompileFromFileFunc  dd NULL
@@ -109,8 +116,14 @@ DlgName                 db "Siekmanski PixelShader Compiler.",0
 szBtnQuit               db "Close",0
 szBtnToogleText         db "Toogle text",0
 szBtnSave               db "Save shader code",0
+szBtnRecompile          db "Recompile",0
+szCptStatutRecomp       db "Recompiling... It takes a long time to compile ! please be patience.",0
 szCptStatutLoaded       db "Loaded: ",0
 szCptStatutSaved        db "Saved !",0
+szCompileFlag0          db "D3DXSHADER_OPTIMIZATION_LEVEL0",0
+szCompileFlag1          db "D3DXSHADER_OPTIMIZATION_LEVEL1",0
+szCompileFlag2          db "D3DXSHADER_OPTIMIZATION_LEVEL2",0
+szCompileFlag3          db "D3DXSHADER_OPTIMIZATION_LEVEL3",0
 
 ; Uncomment a "PixelShaderFile" to compile and run it.
 
@@ -163,6 +176,9 @@ PixelShaderFile            db "PixelShaders\Eye Candy.hlsl",0
 
 ; Compile options -> D3DXSHADER_OPTIMIZATION_LEVEL3 for the best result. ( It takes a long time to compile ! please be patience. )
 PixelShaderCompileFlags equ D3DXSHADER_OPTIMIZATION_LEVEL0 or D3DXSHADER_PREFER_FLOW_CONTROL ; -> fast compiling.
+PixelShaderCompileFlags1 equ D3DXSHADER_OPTIMIZATION_LEVEL1 or D3DXSHADER_PREFER_FLOW_CONTROL
+PixelShaderCompileFlags2 equ D3DXSHADER_OPTIMIZATION_LEVEL2 or D3DXSHADER_PREFER_FLOW_CONTROL
+PixelShaderCompileFlags3 equ D3DXSHADER_OPTIMIZATION_LEVEL3 or D3DXSHADER_PREFER_FLOW_CONTROL
 
 .data?
 align 4
@@ -398,6 +414,12 @@ LOCAL msg:MSG
             invoke SetDlgItemText,hwndX,IDB_QUIT,addr szBtnQuit
             invoke SetDlgItemText,hwndX,IDB_TOGGLE_TEXT,addr szBtnToogleText
             invoke SetDlgItemText,hwndX,IDB_SAVE_SHADER,addr szBtnSave
+            invoke SetDlgItemText,hwndX,IDB_RECOMPILE,addr szBtnRecompile
+            invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_ADDSTRING,0,addr szCompileFlag0
+            invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_ADDSTRING,0,addr szCompileFlag1
+            invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_ADDSTRING,0,addr szCompileFlag2
+            invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_ADDSTRING,0,addr szCompileFlag3
+            invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_SETCURSEL,0,0
             invoke GetDlgItem,hwndX,IDB_SHADER_SQUAD
             cmp eax,0
             je close_program
@@ -465,8 +487,18 @@ LOCAL msg:MSG
             cmp eax,D3D_OK
             jne close_program
 
+           compile: ;recompile jump
             ;=========== OK, we found one, let's compile the pixel shader from file. ===============
-            invoke D3DCompileFromFile,offset PixelShaderFile,0,0,TEXT_("ps_main"),TEXT_("ps_3_0"),PixelShaderCompileFlags,addr g_pShaderTemp,addr g_pShaderMessage,0
+           mov eax,Selected_config
+           .if eax == 0
+               invoke D3DCompileFromFile,offset PixelShaderFile,0,0,TEXT_("ps_main"),TEXT_("ps_3_0"),PixelShaderCompileFlags,addr g_pShaderTemp,addr g_pShaderMessage,0
+            .elseif eax == 1
+               invoke D3DCompileFromFile,offset PixelShaderFile,0,0,TEXT_("ps_main"),TEXT_("ps_3_0"),PixelShaderCompileFlags1,addr g_pShaderTemp,addr g_pShaderMessage,0
+            .elseif eax == 2
+               invoke D3DCompileFromFile,offset PixelShaderFile,0,0,TEXT_("ps_main"),TEXT_("ps_3_0"),PixelShaderCompileFlags2,addr g_pShaderTemp,addr g_pShaderMessage,0
+            .elseif eax == 3
+               invoke D3DCompileFromFile,offset PixelShaderFile,0,0,TEXT_("ps_main"),TEXT_("ps_3_0"),PixelShaderCompileFlags3,addr g_pShaderTemp,addr g_pShaderMessage,0
+            .endif
             cmp eax,D3D_OK
             je GetShaderCode
 
@@ -499,16 +531,29 @@ LOCAL msg:MSG
             invoke lstrcat,addr szCptStatut,addr PixelShaderFile
             invoke SetDlgItemText,hwndX,IDC_STATUT,addr szCptStatut
             invoke RtlZeroMemory,addr szCptStatut,sizeof szCptStatut
+            
+            invoke UpdateWindow,hwndX
     .elseif uMsg == WM_COMMAND
-            mov eax,wParam
-            mov edx,eax
-            shr edx,16
-            and eax,0FFFFh
-            .if wParam == IDB_QUIT
+       ;    mov eax,wParam
+       ;    mov edx,eax
+       ;    shr edx,16
+       ;    and eax,0FFFFh
+            movzx eax, word ptr wParam
+            .if eax == CBB_COMPILEFLAG
+            movzx eax, word ptr wParam+2
+              .if eax == CBN_SELCHANGE
+                  movzx eax, word ptr wParam
+                  invoke SendDlgItemMessage,hwndX,eax,CB_GETCURSEL,0,0
+                  mov Selected_config,eax
+              .endif
+            .elseif wParam == IDB_QUIT
                    ;invoke UpdateWindow,hwndX
                    invoke SendMessage,hwndX,WM_CLOSE,0,0
             .elseif wParam == IDB_TOGGLE_TEXT
                    xor ToggleText,1
+            .elseif wParam == IDB_RECOMPILE
+                   invoke SetDlgItemText,hwndX,IDC_STATUT,addr szCptStatutRecomp
+                   jmp compile
             .elseif wParam == IDB_SAVE_SHADER
                    call SavePixelShaderCode
                    invoke SetDlgItemText,hwndX,IDC_STATUT,addr szCptStatutSaved
