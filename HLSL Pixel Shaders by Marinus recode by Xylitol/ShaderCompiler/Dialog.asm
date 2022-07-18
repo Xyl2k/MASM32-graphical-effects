@@ -593,17 +593,21 @@ LOCAL msg:MSG
                   mov Selected_config,eax
               .endif
             .elseif wParam == IDB_QUIT
+                   invoke UpdateWindow,hwndX
                    invoke SendMessage,hwndX,WM_CLOSE,0,0
             .elseif wParam == IDB_TOGGLE_TEXT
+                   invoke UpdateWindow,hwndX
                    xor ToggleText,1
             .elseif wParam == IDB_RECOMPILE
+                   invoke UpdateWindow,hwndX
                    invoke SetDlgItemText,hwndX,IDC_STATUT,addr szCptStatutRecomp
                    jmp compile
             .elseif wParam == IDB_SAVE_SHADER
+                   invoke UpdateWindow,hwndX
                    call SavePixelShaderCode
                    invoke SetDlgItemText,hwndX,IDC_STATUT,addr szCptStatutSaved
             .elseif wParam == IDB_OPENHLSL
-           ; File has not yet been selected
+                   invoke UpdateWindow,hwndX
                     mov ofn.lStructSize,SIZEOF ofn 
                     mov eax,hwndX
                     mov ofn.hwndOwner,eax
