@@ -45,6 +45,12 @@ IDB_RECOMPILE           equ 2007
 CBB_COMPILEFLAG         equ 2008
 IDB_OPENHLSL            equ 2009
 MAXSIZE                 equ 261
+ICON_APP                equ 101
+ICON_COMPILE            equ 102
+ICON_CLOSE              equ 103
+ICON_SAVE               equ 104
+ICON_TOOGLE             equ 105
+ICON_OPEN               equ 106
 
 IID_ID3DXBuffer TEXTEQU <{08ba5fb08h,05195h,040e2h,{0ach,058h,00dh,098h,09ch,03ah,001h,002h}}>
 
@@ -118,11 +124,11 @@ TextPos2                real4 0.0
 ToggleText              dd 1
 
 DlgName                 db "Siekmanski PixelShader Compiler.",0
-szBtnQuit               db "Close",0
-szBtnToogleText         db "Toogle text",0
-szBtnSave               db "Save shader code",0
-szBtnRecompile          db "Recompile",0
-szBtnOpen               db "Open",0
+szBtnQuit               db " Close",0
+szBtnToogleText         db " Toogle text",0
+szBtnSave               db " Save shader code",0
+szBtnRecompile          db " Compile",0
+szBtnOpen               db " Open",0
 szCptStatutRecomp       db "Recompiling... It takes a long time to compile ! please be patience.",0
 szCptStatutLoaded       db "Loaded: ",0
 szCptStatutSaved        db "Saved !",0
@@ -421,8 +427,34 @@ start:
 DlgProc Proc hwndX:HWND, uMsg:UINT, wParam:WPARAM, lParam:LPARAM    
 LOCAL msg:MSG
     .if uMsg == WM_INITDIALOG
-            invoke LoadIcon,hInstance,200
+            ;======== UI Cosmetics ========
+            invoke LoadIcon,hInstance,ICON_APP
             invoke SendMessage, hwndX, WM_SETICON, 1, eax
+            invoke GetDlgItem,hwndX,IDB_QUIT
+            mov edi, eax
+            invoke LoadIcon,hInstance,ICON_CLOSE
+            invoke LoadImage,hInstance,ICON_CLOSE,IMAGE_ICON,0,0,LR_DEFAULTCOLOR
+            invoke SendMessage,edi, BM_SETIMAGE, IMAGE_ICON, eax 
+            invoke GetDlgItem,hwndX,IDB_RECOMPILE
+            mov edi, eax
+            invoke LoadIcon,hInstance,ICON_COMPILE
+            invoke LoadImage,hInstance,ICON_COMPILE,IMAGE_ICON,0,0,LR_DEFAULTCOLOR
+            invoke SendMessage,edi, BM_SETIMAGE, IMAGE_ICON, eax 
+            invoke GetDlgItem,hwndX,IDB_SAVE_SHADER
+            mov edi, eax
+            invoke LoadIcon,hInstance,ICON_SAVE
+            invoke LoadImage,hInstance,ICON_SAVE,IMAGE_ICON,0,0,LR_DEFAULTCOLOR
+            invoke SendMessage,edi, BM_SETIMAGE, IMAGE_ICON, eax 
+            invoke GetDlgItem,hwndX,IDB_TOGGLE_TEXT
+            mov edi, eax
+            invoke LoadIcon,hInstance,ICON_TOOGLE
+            invoke LoadImage,hInstance,ICON_TOOGLE,IMAGE_ICON,0,0,LR_DEFAULTCOLOR
+            invoke SendMessage,edi, BM_SETIMAGE, IMAGE_ICON, eax 
+            invoke GetDlgItem,hwndX,IDB_OPENHLSL
+            mov edi, eax
+            invoke LoadIcon,hInstance,ICON_OPEN
+            invoke LoadImage,hInstance,ICON_OPEN,IMAGE_ICON,0,0,LR_DEFAULTCOLOR
+            invoke SendMessage,edi, BM_SETIMAGE, IMAGE_ICON, eax 
             invoke SetWindowText,hwndX,addr DlgName
             invoke SetDlgItemText,hwndX,IDB_QUIT,addr szBtnQuit
             invoke SetDlgItemText,hwndX,IDB_TOGGLE_TEXT,addr szBtnToogleText
@@ -434,7 +466,7 @@ LOCAL msg:MSG
             invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_ADDSTRING,0,addr szCompileFlag2
             invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_ADDSTRING,0,addr szCompileFlag3
             invoke SendDlgItemMessage,hwndX,CBB_COMPILEFLAG,CB_SETCURSEL,0,0
-            ; Setup the filter string for the open file dialog
+            ;======== Setup the filter string for the open file dialog ========
             invoke wsprintf,ADDR FiltString,ADDR FiltFormat,ADDR szTargetName,0,ADDR szTargetName,0,0
             invoke GetDlgItem,hwndX,IDB_SHADER_SQUAD
             cmp eax,0
