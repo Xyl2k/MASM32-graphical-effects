@@ -54,6 +54,7 @@ hdcSrc 	dd ?
 ho 		dd ?
 ThreadId dd ?
 hThread dd ?
+dccc    dd ?
 hWnd 	dd ?
 x 		dd ?
 y 		dd ?
@@ -91,6 +92,7 @@ AboutInit proc near
 		invoke GetWindowDC,hWnd
 		mov BoxDC, eax
 		invoke GetDC,0
+		mov dccc,eax
 		invoke CreateCompatibleDC,eax
 		mov hdcSrc, eax
 		invoke CreateCompatibleBitmap,BoxDC,aWidth,aHeight
@@ -220,7 +222,10 @@ Rndproc proc Amount:DWORD
 Rndproc endp
 
 KillAbout proc
+        invoke ReleaseDC,hWnd,BoxDC
+        invoke ReleaseDC,hWnd,dccc
 		invoke TerminateThread,hThread,0
+		invoke DeleteObject,h
 		invoke DeleteObject,ho
 		invoke DeleteDC,hdcSrc
 		ret
