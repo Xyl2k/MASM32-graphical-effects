@@ -1,0 +1,26 @@
+[PROJECT]
+Type=0
+ReleaseCommandLine=
+DebugCommandLine=
+AutoIncFileVersion=0
+RCSilent=0
+PellesTools=0
+
+[MAKE]
+CompileRC=/v
+RCToObj=
+Assemble=/c /coff /Cp /nologo
+Link=/SUBSYSTEM:WINDOWS /RELEASE /VERSION:4.0
+Out=
+ActiveBuild=0
+DebAssemble=/Zi /Zd /c /coff /Cp /nologo
+DebLink=/SUBSYSTEM:WINDOWS /DEBUG /DEBUGTYPE:CV /VERSION:4.0 /INCREMENTAL:NO
+DebOut=
+
+
+[FILES]
+1=ripped.asm
+2=Dialog101.rc
+[SHOWFILE]
+1=600000005E0000008D0400004003000000000000030000000000000095
+2=D50200004401000076060000BB03000001000000010000000000000058
