@@ -98,28 +98,28 @@ LOCAL var_8:DWORD
 LOCAL var_4:DWORD
 LOCAL lpThreadParameter:DWORD
 
-@@:		mov NoiseAmount, 4Fh
-		
-		invoke CreatePen,0,1,LineColor
-		invoke SelectObject,hdcSrc,eax
-		invoke CreateSolidBrush,5
-		invoke SelectObject,hdcSrc,eax
-		invoke BitBlt,hdcSrc,0,0,BoxWidth,BoxHeight,BoxDC,xPos,yPos,SRCCOPY
-		xor eax, eax
-		mov eax, BoxWidth
-		shr eax, 1
-		mov ebx, BoxHeight
-		shr ebx, 1
-		sub eax, 3
-		mov left, eax
-		mov top, ebx
-		inc top
-		add eax, 6
-		mov right, eax
-		mov bottom, ebx
-		dec bottom
-		mov _h, 0
-		mov w, 6
+@@:  mov NoiseAmount, 4Fh
+  
+        invoke CreatePen,0,1,LineColor
+        invoke SelectObject,hdcSrc,eax
+        invoke CreateSolidBrush,LineColor
+        invoke SelectObject,hdcSrc,eax
+        invoke BitBlt,hdcSrc,0,0,BoxWidth,BoxHeight,BoxDC,xPos,yPos,SRCCOPY
+        xor eax, eax
+        mov eax, BoxWidth
+        shr eax, 1
+        mov ebx, BoxHeight
+        shr ebx, 1
+        sub eax, 3
+        mov left, eax
+        mov top, ebx
+        inc top
+        add eax, 6
+        mov right, eax
+        mov bottom, ebx
+        dec bottom
+        mov _h, 0
+        mov w, 6
 loc_4012DD: 			
 		invoke Rectangle,hdcSrc,left,top,right,bottom
 		invoke StaticProc,hdcSrc,left,top,w,_h
@@ -233,8 +233,8 @@ loc_4014F8:
 		mov ebx, edi
 		cmp ebx, offset Haah
 		jnz loc_40147B
-		invoke PatBlt,hdcSrc,0,0,BoxWidth,1,WHITENESS
-		invoke PatBlt,hdcSrc,0,BoxHeight-1,BoxWidth,1,WHITENESS
+        invoke PatBlt,hdcSrc,0,0,BoxWidth,1,PATCOPY
+        invoke PatBlt,hdcSrc,0,BoxHeight-1,BoxWidth,1,PATCOPY
 		dec var_4
 		mov eax, _y
 		add eax, 0Fh
