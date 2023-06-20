@@ -8,7 +8,7 @@ Credits go to the authors.\
 
 To compile you will need to install the [MASM32 SDK](https://www.masm32.com/)\
 We provide also a [WinASM](https://www.winasm.org/) project file for each effects.\
-All the codes can be compiled from their respective `make.bat` if you don't want to launch your favorite IDE or install WinASM.
+All the demos can be compiled at once using `make-all.bat` or from their respective `make.bat` if you don't want to launch your favorite IDE or install WinASM.
 
 ## Contributing
 
